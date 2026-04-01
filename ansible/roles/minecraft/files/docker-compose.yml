@@ -1,0 +1,69 @@
+services:
+  # minecraft:
+  #   image: itzg/minecraft-server:java17
+  #   container_name: minecraft-star-technology
+  #   ports:
+  #     - "25565:25565"
+  #   environment:
+  #     EULA: "TRUE"
+  #     TYPE: "AUTO_CURSEFORGE"
+  #     CF_PAGE_URL: "https://www.curseforge.com/minecraft/modpacks/star-technology"
+  #     MEMORY: "12G"
+  #     CF_API_KEY: "$$2a$$10$$DmicWKdlkD4kVfA8.uBdFO7jFsDw5pGjOJhDVH.S8AE08RT6TaN3G"
+  #     OPS: | 
+  #       techtheawesome
+  #     VIEW_DISTANCE: 24
+  #     SPAWN_PROTECTION: 0
+  #     LEVEL_TYPE: "skyblockbuilder:skyblock"
+  #     ALLOW_FLIGHT: true
+  #     ENABLE_COMMAND_BLOCK: true
+  #   tty: true
+  #   stdin_open: true
+  #   restart: unless-stopped
+  #   volumes:
+  #     - ./data:/data
+  # meatballcraft:
+  #   image: itzg/minecraft-server:java8
+  #   container_name: minecraft-meatballcraft
+  #   ports:
+  #     - "25565:25565"
+  #   environment:
+  #     EULA: "TRUE"
+  #     TYPE: "AUTO_CURSEFORGE"
+  #     CF_PAGE_URL: "https://www.curseforge.com/minecraft/modpacks/meatballcraft"
+  #     MEMORY: "12G"
+  #     CF_API_KEY: "$$2a$$10$$DmicWKdlkD4kVfA8.uBdFO7jFsDw5pGjOJhDVH.S8AE08RT6TaN3G"
+  #     OPS: | 
+  #       techtheawesome
+  #     VIEW_DISTANCE: 24
+  #     SPAWN_PROTECTION: 0
+  #     ALLOW_FLIGHT: true
+  #     ENABLE_COMMAND_BLOCK: true
+  #   tty: true
+  #   stdin_open: true
+  #   restart: unless-stopped
+  #   volumes:
+  #     - ./meatballcraft:/data
+  stoneblock4:
+    image: itzg/minecraft-server:java21
+    container_name: minecraft-stoneblock4
+    ports:
+      - "25565:25565"
+    environment:
+      EULA: "TRUE"
+      TYPE: "AUTO_CURSEFORGE"
+      CF_PAGE_URL: "https://www.curseforge.com/minecraft/modpacks/ftb-stoneblock-4"
+      MEMORY: "12G"
+      CF_API_KEY: "$$2a$$10$$DmicWKdlkD4kVfA8.uBdFO7jFsDw5pGjOJhDVH.S8AE08RT6TaN3G"
+      OPS: | 
+        techtheawesome
+      VIEW_DISTANCE: 24
+      SPAWN_PROTECTION: 0
+      ALLOW_FLIGHT: true
+      ENABLE_COMMAND_BLOCK: true
+      DIFFICULTY: hard
+    tty: true
+    stdin_open: true
+    restart: unless-stopped
+    volumes:
+      - ./stoneblock4:/data

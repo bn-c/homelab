@@ -1,0 +1,6 @@
+---
+- name: Configure Minecraft Server
+  hosts: mc
+  become: yes
+  roles:
+    - minecraft

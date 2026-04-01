@@ -1,0 +1,6 @@
+---
+- name: Setup Samba LXC
+  hosts: samba
+  become: yes
+  roles:
+    - samba
