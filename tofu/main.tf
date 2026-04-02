@@ -55,6 +55,7 @@ resource "proxmox_lxc" "samba_lxc" {
     storage = "local-lvm"
     mp      = "/srv/samba"
     size    = "100G"
+    backup  = true
   }
 
   network {
