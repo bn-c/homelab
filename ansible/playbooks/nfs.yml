@@ -1,0 +1,6 @@
+---
+- name: Setup NFS LXC
+  hosts: nfs
+  become: yes
+  roles:
+    - nfs
