@@ -1,0 +1,28 @@
+---
+- name: Install NFS server
+  apt:
+    update_cache: yes
+    name:
+      - nfs-kernel-server
+    state: present
+
+- name: Create shared directory
+  file:
+    path: /srv/nfs/share
+    state: directory
+    mode: '0777'
+    owner: nobody
+    group: nogroup
+
+- name: Export shared directory
+  lineinfile:
+    path: /etc/exports
+    line: '/srv/nfs/share *(rw,sync,no_subtree_check,no_root_squash)'
+    create: yes
+  notify: restart nfs-kernel-server
+
+- name: Ensure NFS service is running and enabled on boot
+  service:
+    name: nfs-kernel-server
+    state: started
+    enabled: yes

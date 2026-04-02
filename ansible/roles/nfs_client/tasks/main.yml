@@ -1,0 +1,20 @@
+---
+- name: Install NFS client
+  apt:
+    update_cache: yes
+    name:
+      - nfs-common
+    state: present
+
+- name: Create mount point
+  file:
+    path: /root/share
+    state: directory
+
+- name: Mount NFS share
+  mount:
+    path: /root/share
+    src: 192.168.11.239:/srv/nfs/share
+    fstype: nfs
+    opts: rw,sync,hard,intr
+    state: mounted
