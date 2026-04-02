@@ -23,6 +23,9 @@ resource "proxmox_lxc" "minecraft_lxc" {
   start        = true
   unprivileged = false
 
+  features {
+    nesting = true
+  }
 }
 
 resource "proxmox_lxc" "samba_lxc" {
@@ -70,44 +73,4 @@ resource "proxmox_lxc" "samba_lxc" {
 moved {
   from = proxmox_lxc.omv_lxc
   to   = proxmox_lxc.samba_lxc
-}
-
-resource "proxmox_vm_qemu" "nfs_vm" {
-  name        = "nfs-server"
-  target_node = "pve"
-  clone       = "coder-tmpl"
-
-  cores  = 2
-  memory = 2048
-
-  scsihw = "virtio-scsi-pci"
-  boot   = "order=scsi0"
-
-  disks {
-    scsi {
-      scsi0 {
-        disk {
-          size    = 20
-          storage = "local-lvm"
-        }
-      }
-      scsi1 {
-        disk {
-          size    = 100
-          storage = "local-lvm"
-        }
-      }
-    }
-  }
-
-  network {
-    model  = "virtio"
-    bridge = "vmbr1lan"
-  }
-
-  onboot = true
-
-  sshkeys = <<-EOT
-    ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID+nh8Nwmib5blLo1W2rawfg4b6UKkrOwh9QF+3ARZRq tech@desk
-  EOT
 }
