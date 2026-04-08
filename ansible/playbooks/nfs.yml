@@ -1,6 +1,5 @@
 ---
-- name: Setup NFS LXC
-  hosts: nfs
+- hosts: nfs_servers
   become: yes
   roles:
     - nfs

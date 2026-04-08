@@ -1,45 +1,21 @@
 ---
-- name: Install nfs-kernel-server
+- name: Install NFS server
   apt:
-    update_cache: yes
     name: nfs-kernel-server
     state: present
+    update_cache: yes
 
-- name: Format the 100G disk
-  filesystem:
-    fstype: ext4
-    dev: /dev/vdb
-
-- name: Create mount point for NFS storage
+- name: Create NFS export directory
   file:
     path: /srv/nfs
     state: directory
-    mode: "0755"
-
-- name: Mount the 100G disk
-  mount:
-    path: /srv/nfs
-    src: /dev/vdb
-    fstype: ext4
-    state: mounted
-
-- name: Create shared directory
-  file:
-    path: /srv/nfs/share
-    state: directory
-    mode: "0777"
     owner: nobody
     group: nogroup
+    mode: '0777'
 
-- name: Configure kernel NFS exports
+- name: Configure NFS exports
   lineinfile:
     path: /etc/exports
-    line: "/srv/nfs/share *(rw,sync,no_subtree_check,no_root_squash)"
-    create: yes
-  notify: restart nfs-kernel-server
-
-- name: Ensure nfs-kernel-server is running and enabled
-  service:
-    name: nfs-kernel-server
-    state: started
-    enabled: yes
+    line: '/srv/nfs *(rw,sync,no_subtree_check,no_root_squash)'
+    state: present
+  notify: restart nfs-server
