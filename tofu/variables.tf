@@ -14,3 +14,9 @@ variable "proxmox_api_token_secret" {
   description = "The Proxmox API Token Secret"
   sensitive   = true
 }
+
+variable "proxmox_ssh_password" {
+  type        = string
+  description = "The SSH password for the Proxmox server"
+  sensitive   = true
+}
