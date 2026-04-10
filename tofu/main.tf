@@ -42,13 +42,13 @@ resource "proxmox_virtual_environment_vm" "nfs_vm" {
   }
 
   cpu {
-    cores   = 2
+    cores   = 6
     sockets = 1
     type    = "host"
   }
 
   memory {
-    dedicated = 2048
+    dedicated = 8192
   }
 
   started = true
