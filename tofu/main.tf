@@ -140,17 +140,12 @@ resource "proxmox_virtual_environment_vm" "nfs_vm" {
   }
 
   initialization {
-    vendor_data_file_id = proxmox_virtual_environment_file.cloud_init_vendor_data.id
+    user_data_file_id = proxmox_virtual_environment_file.cloud_init_vendor_data.id
 
     ip_config {
       ipv4 {
         address = "dhcp"
       }
-    }
-
-    user_account {
-      username = "tech"
-      keys     = ["ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID+nh8Nwmib5blLo1W2rawfg4b6UKkrOwh9QF+3ARZRq tech@desk"]
     }
   }
 }
