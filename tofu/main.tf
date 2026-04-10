@@ -123,7 +123,7 @@ resource "proxmox_virtual_environment_vm" "nfs_vm" {
     type = "l26"
   }
 
-  scsi_hardware = "virtio-scsi-pci"
+  scsi_hardware = "virtio-scsi-single"
   boot_order    = ["scsi0"]
 
   disk {
