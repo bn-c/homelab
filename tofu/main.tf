@@ -1,36 +1,4 @@
-resource "proxmox_lxc" "minecraft_lxc" {
-  hostname    = "mc-server"
-  target_node = "pve"
-
-  clone = "110"
-
-  cores  = 4
-  memory = 20480
-  swap   = 0
-
-  rootfs {
-    storage = "local-lvm"
-    size    = "50G"
-  }
-
-  network {
-    name   = "eth0"
-    bridge = "vmbr1lan"
-    ip     = "dhcp"
-  }
-
-  onboot       = true
-  start        = true
-  unprivileged = false
-
-  features {
-    nesting = true
-  }
-}
-
-
 resource "proxmox_virtual_environment_file" "cloud_init_user_data" {
-  provider     = bpg
   content_type = "snippets"
   datastore_id = "local"
   node_name    = "pve"
@@ -42,7 +10,6 @@ resource "proxmox_virtual_environment_file" "cloud_init_user_data" {
 }
 
 resource "proxmox_virtual_environment_file" "cloud_init_meta_data" {
-  provider     = bpg
   content_type = "snippets"
   datastore_id = "local"
   node_name    = "pve"
@@ -54,7 +21,6 @@ resource "proxmox_virtual_environment_file" "cloud_init_meta_data" {
 }
 
 resource "proxmox_virtual_environment_download_file" "ubuntu_cloud_image_nfs" {
-  provider     = bpg
   content_type = "iso"
   datastore_id = "local"
   node_name    = "pve"
@@ -67,7 +33,6 @@ resource "proxmox_virtual_environment_download_file" "ubuntu_cloud_image_nfs" {
 }
 
 resource "proxmox_virtual_environment_vm" "nfs_vm" {
-  provider  = bpg
   name      = "nfs-server"
   node_name = "pve"
   vm_id     = 901
