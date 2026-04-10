@@ -75,7 +75,7 @@ moved {
   to   = proxmox_lxc.samba_lxc
 }
 
-resource "proxmox_virtual_environment_file" "cloud_init_vendor_data" {
+resource "proxmox_virtual_environment_file" "cloud_init_user_data" {
   provider     = bpg
   content_type = "snippets"
   datastore_id = "local"
@@ -140,10 +140,20 @@ resource "proxmox_virtual_environment_vm" "nfs_vm" {
   }
 
   initialization {
-    user_data_file_id = proxmox_virtual_environment_file.cloud_init_vendor_data.id
+    type              = "nocloud"
+    datastore_id      = "local-lvm"
+    user_data_file_id = proxmox_virtual_environment_file.cloud_init_user_data.id
+    user_account {
+      username = "root"
+      password = "techisawesome"
+      keys     = ["ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID+nh8Nwmib5blLo1W2rawfg4b6UKkrOwh9QF+3ARZRq tech@desk"]
+    }
 
     ip_config {
       ipv4 {
+        address = "dhcp"
+      }
+      ipv6 {
         address = "dhcp"
       }
     }

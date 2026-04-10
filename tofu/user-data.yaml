@@ -1,19 +1,4 @@
 #cloud-config
-users:
-  - name: tech
-    groups: sudo
-    shell: /bin/bash
-    sudo: ALL=(ALL) NOPASSWD:ALL
-    ssh_authorized_keys:
-      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID+nh8Nwmib5blLo1W2rawfg4b6UKkrOwh9QF+3ARZRq tech@desk
-
-chpasswd:
-  list: |
-    root:techisawesome
-    tech:techisawesome
-  expire: false
-ssh_pwauth: true
-
 packages:
   - qemu-guest-agent
 
