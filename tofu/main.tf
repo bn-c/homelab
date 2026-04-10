@@ -81,8 +81,21 @@ resource "proxmox_virtual_environment_file" "cloud_init_user_data" {
   datastore_id = "local"
   node_name    = "pve"
 
-  source_file {
-    path = "user-data.yaml"
+  source_raw {
+    data      = file("${path.module}/user-data.yaml")
+    file_name = "user-data.yaml"
+  }
+}
+
+resource "proxmox_virtual_environment_file" "cloud_init_meta_data" {
+  provider     = bpg
+  content_type = "snippets"
+  datastore_id = "local"
+  node_name    = "pve"
+
+  source_raw {
+    data      = "local-hostname: nfs-server\ninstance-id: nfs-server\n"
+    file_name = "meta-data.yaml"
   }
 }
 
@@ -91,6 +104,9 @@ resource "proxmox_virtual_environment_download_file" "ubuntu_cloud_image_nfs" {
   content_type = "iso"
   datastore_id = "local" 
   node_name    = "pve"   
+
+  overwrite             = true
+  overwrite_unmanaged   = true
 
   # URL for Ubuntu 24.04 Cloud Image
   url = "https://cloud-images.ubuntu.com/noble/current/noble-server-cloudimg-amd64.img"
@@ -143,11 +159,7 @@ resource "proxmox_virtual_environment_vm" "nfs_vm" {
     type              = "nocloud"
     datastore_id      = "local-lvm"
     user_data_file_id = proxmox_virtual_environment_file.cloud_init_user_data.id
-    user_account {
-      username = "root"
-      password = "techisawesome"
-      keys     = ["ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID+nh8Nwmib5blLo1W2rawfg4b6UKkrOwh9QF+3ARZRq tech@desk"]
-    }
+    meta_data_file_id = proxmox_virtual_environment_file.cloud_init_meta_data.id
 
     ip_config {
       ipv4 {
