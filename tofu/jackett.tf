@@ -4,7 +4,7 @@ resource "proxmox_virtual_environment_container" "jackett_ct" {
   description = "Jackett container"
   
   initialization {
-    hostname = "jackett"
+    hostname = "jackett-ct"
     ip_config {
       ipv4 {
         address = "dhcp"
