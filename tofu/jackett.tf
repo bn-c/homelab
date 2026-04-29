@@ -30,5 +30,9 @@ resource "proxmox_virtual_environment_container" "jackett_ct" {
     bridge = "vmbr1lan"
   }
 
+  console {
+    enabled = true
+  }
+
   started = true
 }
