@@ -18,5 +18,10 @@
     src: docker-compose.yml
     dest: /opt/jackett/docker-compose.yml
 
+- name: Stop and remove existing docker-compose containers
+  command: docker-compose -f /opt/jackett/docker-compose.yml down
+  register: compose_down
+  failed_when: false
+
 - name: Run docker-compose
   command: docker-compose -f /opt/jackett/docker-compose.yml up -d
