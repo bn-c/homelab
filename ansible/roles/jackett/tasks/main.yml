@@ -1,3 +1,9 @@
+- name: Install curl
+  apt:
+    name: curl
+    state: present
+    update_cache: yes
+
 - name: Install Docker via convenience script
   shell: curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
   args:
@@ -7,7 +13,6 @@
   apt:
     name: python3-docker
     state: present
-    update_cache: yes
 
 - name: Create directories
   file:
@@ -21,9 +26,13 @@
     dest: /opt/jackett/docker-compose.yml
 
 - name: Stop and remove existing docker-compose containers
-  command: docker-compose -f /opt/jackett/docker-compose.yml down
+  command: docker compose -f /opt/jackett/docker-compose.yml down
+  args:
+    chdir: /opt/jackett
   register: compose_down
   failed_when: false
 
 - name: Run docker-compose
-  command: docker-compose -f /opt/jackett/docker-compose.yml up -d
+  command: docker compose -f /opt/jackett/docker-compose.yml up -d
+  args:
+    chdir: /opt/jackett
