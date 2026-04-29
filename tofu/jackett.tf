@@ -2,6 +2,10 @@ resource "proxmox_virtual_environment_container" "jackett_ct" {
   node_name = "pve"
   vm_id     = 902
   description = "Jackett container"
+
+  features {
+    nesting = true
+  }
   
   initialization {
     hostname = "jackett-ct"
