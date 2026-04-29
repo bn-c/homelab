@@ -1,0 +1,4 @@
+- hosts: jackett
+  become: yes
+  roles:
+    - jackett
