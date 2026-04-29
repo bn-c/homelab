@@ -10,6 +10,9 @@ resource "proxmox_virtual_environment_container" "jackett_ct" {
         address = "dhcp"
       }
     }
+    user_account {
+      password = "techisawesome"
+    }
   }
 
   operating_system {
