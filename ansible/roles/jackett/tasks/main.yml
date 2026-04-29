@@ -1,9 +1,11 @@
-- name: Install Docker
+- name: Install Docker via convenience script
+  shell: curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
+  args:
+    creates: /usr/bin/docker
+
+- name: Install python3-docker
   apt:
-    name:
-      - docker.io
-      - docker-compose
-      - python3-docker
+    name: python3-docker
     state: present
     update_cache: yes
 
