@@ -2,6 +2,8 @@ resource "proxmox_virtual_environment_container" "jackett_ct" {
   node_name = "pve"
   vm_id     = 902
   description = "Jackett container"
+  unprivileged = true
+
 
   features {
     nesting = true
