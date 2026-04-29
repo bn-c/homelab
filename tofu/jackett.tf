@@ -26,8 +26,9 @@ resource "proxmox_virtual_environment_container" "jackett_ct" {
   }
 
   network_interface {
-    name   = "eth0"
-    bridge = "vmbr1lan"
+    name     = "eth0"
+    bridge   = "vmbr1lan"
+    firewall = true
   }
 
   console {
