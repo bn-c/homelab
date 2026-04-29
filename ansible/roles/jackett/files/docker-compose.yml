@@ -8,6 +8,7 @@ services:
       - PGID=1000
       - TZ=Etc/UTC
       - AUTO_UPDATE=true
+      - FLARESOLVERR_URL=http://flaresolverr:8191
     volumes:
       - /opt/jackett/config:/config
       - /opt/jackett/downloads:/downloads
