@@ -1,9 +1,8 @@
 resource "proxmox_virtual_environment_container" "jackett_ct" {
-  node_name = "pve"
-  vm_id     = 902
-  description = "Jackett container"
+  node_name    = "pve"
+  vm_id        = 902
+  description  = "Jackett container"
   unprivileged = true
-
 
   features {
     nesting = true
@@ -36,6 +35,14 @@ resource "proxmox_virtual_environment_container" "jackett_ct" {
   disk {
     datastore_id = "local-lvm"
     size         = 8
+  }
+  
+  memory {
+    dedicated = 2048
+  }
+  
+  cpu {
+    cores = 2
   }
 
   network_interface {
