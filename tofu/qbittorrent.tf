@@ -6,6 +6,7 @@ resource "proxmox_virtual_environment_container" "qbittorrent_ct" {
 
   features {
     nesting = true
+    mount = ["nfs"]
   }
 
   initialization {
