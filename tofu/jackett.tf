@@ -18,6 +18,10 @@ resource "proxmox_virtual_environment_container" "jackett_ct" {
         address = "dhcp"
       }
     }
+    dns {
+      domain = "local"
+      servers = ["8.8.8.8"]
+    }
     user_account {
       password = "techisawesome"
       keys = [
