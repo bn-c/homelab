@@ -10,7 +10,7 @@ resource "proxmox_virtual_environment_container" "jackett_ct" {
   }
   
   initialization {
-    hostname = "jackett-ct"
+    hostname = "jackett"
     ip_config {
       ipv4 {
         address = "dhcp"
