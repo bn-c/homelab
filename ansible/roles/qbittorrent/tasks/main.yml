@@ -19,7 +19,7 @@
   file:
     path: "{{ item }}"
     state: directory
-    mode: '0755'
+    mode: '0777'
   loop:
     - /opt/qbittorrent
     - /opt/qbittorrent/downloads
