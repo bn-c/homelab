@@ -15,6 +15,9 @@ resource "proxmox_virtual_environment_container" "jackett_ct" {
       ipv4 {
         address = "dhcp"
       }
+      ipv6 {
+        address = "dhcp"
+      }
     }
     user_account {
       password = "techisawesome"

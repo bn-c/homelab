@@ -14,6 +14,9 @@ resource "proxmox_virtual_environment_container" "qbittorrent_ct" {
       ipv4 {
         address = "dhcp"
       }
+      ipv6 {
+        address = "dhcp"
+      }
     }
     user_account {
       password = "techisawesome"
