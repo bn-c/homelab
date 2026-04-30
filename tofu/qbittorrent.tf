@@ -8,6 +8,11 @@ resource "proxmox_virtual_environment_container" "qbittorrent_ct" {
     nesting = true
   }
 
+  mount_point {
+    volume = "/mnt/nfs/torrent"
+    path   = "/opt/qbittorrent/downloads"
+  }
+
   initialization {
     hostname = "qbittorrent"
     ip_config {
