@@ -1,25 +1,38 @@
----
-- name: Install and configure qBittorrent via Docker
-  hosts: qbittorrent
-  become: yes
-  tasks:
-    - name: Ensure docker is installed (simple example)
-      apt:
-        name: docker.io
-        state: present
-        update_cache: yes
-    
-    - name: Create qbittorrent directory
-      file:
-        path: /opt/qbittorrent
-        state: directory
+- name: Install curl
+  apt:
+    name: curl
+    state: present
+    update_cache: yes
 
-    - name: Copy docker-compose
-      copy:
-        src: docker-compose.yml
-        dest: /opt/qbittorrent/docker-compose.yml
+- name: Install Docker via convenience script
+  shell: curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
+  args:
+    creates: /usr/bin/docker
 
-    - name: Run docker-compose
-      shell: docker compose up -d
-      args:
-        chdir: /opt/qbittorrent
+- name: Install python3-docker
+  apt:
+    name: python3-docker
+    state: present
+
+- name: Create directories
+  file:
+    path: /opt/qbittorrent
+    state: directory
+    mode: '0755'
+
+- name: Copy docker-compose
+  copy:
+    src: docker-compose.yml
+    dest: /opt/qbittorrent/docker-compose.yml
+
+- name: Stop and remove existing docker-compose containers
+  command: docker compose -f /opt/qbittorrent/docker-compose.yml down
+  args:
+    chdir: /opt/qbittorrent
+  register: compose_down
+  failed_when: false
+
+- name: Run docker-compose
+  command: docker compose -f /opt/qbittorrent/docker-compose.yml up -d
+  args:
+    chdir: /opt/qbittorrent
