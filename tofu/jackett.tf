@@ -36,6 +36,7 @@ resource "proxmox_virtual_environment_container" "jackett_ct" {
     datastore_id = "local-lvm"
     size         = 8
   }
+<<<<<<< Updated upstream
   
   memory {
     dedicated = 2048
@@ -44,6 +45,16 @@ resource "proxmox_virtual_environment_container" "jackett_ct" {
   cpu {
     cores = 2
   }
+=======
+  memory {
+    dedicated = 2048
+  }
+  cpu {
+    cores = 2
+  }
+
+
+>>>>>>> Stashed changes
 
   network_interface {
     name     = "eth0"
