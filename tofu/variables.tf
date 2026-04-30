@@ -4,14 +4,15 @@ variable "proxmox_host" {
   default     = "192.168.11.2"
 }
 
-variable "proxmox_api_token_id" {
+variable "proxmox_username" {
   type        = string
-  description = "The Proxmox API Token ID (e.g. root@pam!tofu)"
+  description = "The Proxmox username (e.g. root@pam)"
+  default     = "root@pam"
 }
 
-variable "proxmox_api_token_secret" {
+variable "proxmox_password" {
   type        = string
-  description = "The Proxmox API Token Secret"
+  description = "The Proxmox password"
   sensitive   = true
 }
 
