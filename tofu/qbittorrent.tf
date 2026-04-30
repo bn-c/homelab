@@ -2,7 +2,7 @@ resource "proxmox_virtual_environment_container" "qbittorrent_ct" {
   node_name    = "pve"
   vm_id        = 903
   description  = "qBittorrent container"
-  unprivileged = true
+  unprivileged = false
 
   features {
     nesting = true
