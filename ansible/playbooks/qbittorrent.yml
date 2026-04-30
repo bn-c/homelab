@@ -1,0 +1,5 @@
+---
+- name: Configure qbittorrent
+  hosts: qbittorrent
+  roles:
+    - qbittorrent
