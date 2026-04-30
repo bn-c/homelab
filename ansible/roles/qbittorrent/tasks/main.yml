@@ -1,8 +1,7 @@
-- name: Install curl and nfs-common
+- name: Install curl
   apt:
     name: 
       - curl
-      - nfs-common
     state: present
     update_cache: yes
 
@@ -24,13 +23,6 @@
   loop:
     - /opt/qbittorrent
     - /opt/qbittorrent/downloads
-
-- name: Mount NFS share
-  mount:
-    path: /opt/qbittorrent/downloads
-    src: nfs-server.local:/srv/nfs/torrent
-    fstype: nfs
-    state: mounted
 
 - name: Copy docker-compose
   copy:
