@@ -1,0 +1,39 @@
+---
+- name: Install curl
+  apt:
+    name: curl
+    state: present
+    update_cache: yes
+
+- name: Install Docker via convenience script
+  shell: curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
+  args:
+    creates: /usr/bin/docker
+
+- name: Install python3-docker
+  apt:
+    name: python3-docker
+    state: present
+
+- name: Create directories
+  file:
+    path: /opt/owncast
+    state: directory
+    mode: '0755'
+
+- name: Copy docker-compose
+  copy:
+    src: docker-compose.yml
+    dest: /opt/owncast/docker-compose.yml
+
+- name: Stop and remove existing docker-compose containers
+  command: docker compose -f /opt/owncast/docker-compose.yml down
+  args:
+    chdir: /opt/owncast
+  register: compose_down
+  failed_when: false
+
+- name: Run docker-compose
+  command: docker compose -f /opt/owncast/docker-compose.yml up -d
+  args:
+    chdir: /opt/owncast

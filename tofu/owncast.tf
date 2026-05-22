@@ -1,16 +1,15 @@
-resource "proxmox_virtual_environment_container" "nfs_ct" {
+resource "proxmox_virtual_environment_container" "owncast_ct" {
   node_name    = "pve"
-  vm_id        = 905
-  description  = "NFS server container"
-  unprivileged = false
+  vm_id        = 906
+  description  = "Owncast container"
+  unprivileged = true
 
   features {
     nesting = true
-    mount   = ["nfs"]
   }
 
   initialization {
-    hostname = "nfs"
+    hostname = "owncast"
     ip_config {
       ipv4 {
         address = "dhcp"
@@ -35,17 +34,17 @@ resource "proxmox_virtual_environment_container" "nfs_ct" {
 
   disk {
     datastore_id = "local-lvm"
-    size         = 150
+    size         = 10
   }
   
   memory {
-    dedicated = 8192
+    dedicated = 2048
   }
   
   cpu {
-    cores = 8
+    cores = 2
   }
-  
+
   network_interface {
     name     = "eth0"
     bridge   = "vmbr1lan"
