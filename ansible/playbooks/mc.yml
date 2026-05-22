@@ -2,5 +2,24 @@
 - name: Configure Minecraft Server
   hosts: mc
   become: yes
-  roles:
-    - minecraft
+  tasks:
+    - name: Ensure Docker service is running
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Copy docker-compose.yml to the server
+      copy:
+        src: files/minecraft/docker-compose.yml
+        dest: /root/docker-compose.yml
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Start Minecraft server using docker compose
+      command: docker compose up -d --remove-orphans
+      args:
+        chdir: /root
+      register: docker_compose_output
+      changed_when: "'Created' in docker_compose_output.stdout or 'Started' in docker_compose_output.stdout"
