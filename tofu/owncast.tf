@@ -42,7 +42,7 @@ resource "proxmox_virtual_environment_container" "owncast_ct" {
   }
   
   cpu {
-    cores = 2
+    cores = 6
   }
 
   network_interface {
