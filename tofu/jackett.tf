@@ -7,7 +7,7 @@ resource "proxmox_virtual_environment_container" "jackett_ct" {
   features {
     nesting = true
   }
-  
+
   initialization {
     hostname = "jackett"
     ip_config {
@@ -19,7 +19,7 @@ resource "proxmox_virtual_environment_container" "jackett_ct" {
       }
     }
     dns {
-      domain = "local"
+      domain  = "local"
       servers = ["8.8.8.8"]
     }
     user_account {
@@ -40,11 +40,11 @@ resource "proxmox_virtual_environment_container" "jackett_ct" {
     datastore_id = "local-lvm"
     size         = 8
   }
-  
+
   memory {
     dedicated = 2048
   }
-  
+
   cpu {
     cores = 2
   }

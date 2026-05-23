@@ -37,15 +37,15 @@ resource "proxmox_virtual_environment_container" "nfs_ct" {
     datastore_id = "local-lvm"
     size         = 150
   }
-  
+
   memory {
     dedicated = 8192
   }
-  
+
   cpu {
     cores = 8
   }
-  
+
   network_interface {
     name     = "eth0"
     bridge   = "vmbr1lan"

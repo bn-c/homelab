@@ -36,11 +36,11 @@ resource "proxmox_virtual_environment_container" "owncast_ct" {
     datastore_id = "local-lvm"
     size         = 10
   }
-  
+
   memory {
     dedicated = 2048
   }
-  
+
   cpu {
     cores = 6
   }

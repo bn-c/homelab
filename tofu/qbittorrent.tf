@@ -41,11 +41,11 @@ resource "proxmox_virtual_environment_container" "qbittorrent_ct" {
     datastore_id = "local-lvm"
     size         = 8
   }
-  
+
   memory {
     dedicated = 2048
   }
-  
+
   cpu {
     cores = 2
   }
