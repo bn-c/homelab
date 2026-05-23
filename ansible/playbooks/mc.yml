@@ -3,6 +3,17 @@
   hosts: mc
   become: yes
   tasks:
+    - name: Install curl
+      apt:
+        name: curl
+        state: present
+        update_cache: yes
+
+    - name: Install Docker via convenience script
+      shell: curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
+      args:
+        creates: /usr/bin/docker
+
     - name: Ensure Docker service is running
       service:
         name: docker
