@@ -9,3 +9,14 @@ services:
       - 80:8080
       - 1935:1935
     restart: unless-stopped
+
+  owncast2:
+    image: gabekangas/owncast:latest
+    container_name: owncast2
+    volumes:
+      - /opt/owncast2/data:/app/data
+    ports:
+      - 81:8080
+      - 1936:1935
+    restart: unless-stopped
+
