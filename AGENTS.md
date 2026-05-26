@@ -12,8 +12,8 @@ This repository is a homelab setup utilizing Infrastructure as Code (IaC) and Co
 
 - **OpenTofu (tofu):** Used instead of standard Terraform. Always use `tofu` commands (e.g., `tofu init`, `tofu plan`, `tofu apply`).
 - **Proxmox:** The underlying hypervisor.
-- **Ansible:** Used for configuration management. Playbooks are in `ansible/playbooks/`, roles are in `ansible/roles/`, and inventory is in `ansible/inventory/`.
-- **Docker:** Used inside some VMs (e.g., Minecraft role uses docker-compose).
+- **Ansible:** Used for configuration management. Playbooks are in `ansible/playbooks/`, and inventory is in `ansible/inventory/`. The project relies on direct playbooks rather than roles.
+- **Docker:** Used inside some VMs (e.g., Minecraft uses docker-compose).
 
 ## Agent Instructions
 
@@ -29,14 +29,14 @@ When modifying or analyzing this repository, keep the following rules in mind:
 - Before applying changes, always run `tofu plan` to verify what will be created/modified.
 
 ### 3. Ansible (`ansible/`)
-- Maintain idempotency in Ansible playbooks and roles. Run tasks so they only make changes when necessary.
+- Maintain idempotency in Ansible playbooks. Run tasks so they only make changes when necessary.
 - Update `ansible/inventory/hosts.ini` with correct IP addresses when new infrastructure is provisioned.
-- The entrypoint playbook is usually `ansible/playbooks/site.yml` or specific playbooks like `samba.yml`.
-- Role-specific configurations (like Docker Compose files for Minecraft) reside in `ansible/roles/<role_name>/files/` or `templates/`.
+- Service specific playbooks (like `mc.yml`, `qbittorrent.yml`) run tasks directly instead of using separate roles.
+- Docker Compose and configuration files for specific services reside in `ansible/playbooks/files/<service_name>/`.
 
 ### 4. Workflow
 - If asked to provision a new service:
-  1. Add the necessary VM/LXC definition in `tofu/main.tf` (and update variables if needed).
-  2. Create or update the corresponding Ansible role in `ansible/roles/`.
-  3. Update the Ansible inventory (`hosts.ini`).
-  4. Create or update a playbook in `ansible/playbooks/` to map the new role to the new host group.
+  1. Add the necessary VM/LXC definition in `tofu/<service_name>.tf` (and update variables if needed).
+  2. Create or update the corresponding Ansible playbook in `ansible/playbooks/<service_name>.yml`. Keep associated files in `ansible/playbooks/files/<service_name>/`.
+  3. Update the Ansible inventory (`ansible/inventory/hosts.ini`).
+  4. Ensure the playbook deploys the necessary configuration and starts the service.
