@@ -41,4 +41,16 @@
     
     system.stateVersion = "26.05"; 
   };
+
+  owncast = { name, nodes, pkgs, modulesPath, ... }: {
+    deployment.targetHost = "owncast.local";
+    deployment.targetUser = "root";
+
+    imports = [
+      ./nix/modules/common-lxc.nix
+      ./nix/modules/owncast.nix
+    ];
+    
+    system.stateVersion = "26.05"; 
+  };
 }

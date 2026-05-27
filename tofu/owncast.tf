@@ -28,8 +28,8 @@ resource "proxmox_virtual_environment_container" "owncast_ct" {
   }
 
   operating_system {
-    template_file_id = "local:vztmpl/ubuntu-25.04-standard_25.04-1.1_amd64.tar.zst"
-    type             = "ubuntu"
+    template_file_id = "local:vztmpl/nixos-image-lxc-proxmox-26.05pre-git-x86_64-linux.tar.xz"
+    type             = "nixos"
   }
 
   disk {
