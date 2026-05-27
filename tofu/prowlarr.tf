@@ -1,16 +1,15 @@
-resource "proxmox_virtual_environment_container" "qbittorrent_ct" {
+resource "proxmox_virtual_environment_container" "prowlarr_ct" {
   node_name    = "pve"
-  vm_id        = 903
-  description  = "qBittorrent container"
+  vm_id        = 904
+  description  = "Prowlarr container"
   unprivileged = false
 
   features {
     nesting = true
-    mount   = ["nfs"]
   }
 
   initialization {
-    hostname = "qbittorrent"
+    hostname = "prowlarr"
     ip_config {
       ipv4 {
         address = "dhcp"

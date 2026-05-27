@@ -5,13 +5,25 @@
     };
   };
 
-  qbittorrent = { name, nodes, pkgs, modulesPath, ... }: {
-    deployment.targetHost = "qbittorrent.local";
+  transmission = { name, nodes, pkgs, modulesPath, ... }: {
+    deployment.targetHost = "transmission.local";
     deployment.targetUser = "root";
 
     imports = [
       ./nix/modules/common-lxc.nix
-      ./nix/modules/qbittorrent.nix
+      ./nix/modules/transmission.nix
+    ];
+    
+    system.stateVersion = "26.05"; 
+  };
+
+  prowlarr = { name, nodes, pkgs, modulesPath, ... }: {
+    deployment.targetHost = "prowlarr.local";
+    deployment.targetUser = "root";
+
+    imports = [
+      ./nix/modules/common-lxc.nix
+      ./nix/modules/prowlarr.nix
     ];
     
     system.stateVersion = "26.05"; 

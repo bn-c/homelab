@@ -7,10 +7,9 @@
 
   boot.isContainer = true;
 
-  # Enable mDNS resolution
-  services.avahi = {
+  services.resolved = {
     enable = true;
-    nssmdns4 = true;
+    domains = [ "~local" ];
   };
 
   # Enable and configure SSH for remote management
