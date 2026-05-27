@@ -2,15 +2,11 @@ resource "proxmox_virtual_environment_container" "qbittorrent_ct" {
   node_name    = "pve"
   vm_id        = 903
   description  = "qBittorrent container"
-  unprivileged = true
+  unprivileged = false
 
   features {
     nesting = true
-  }
-
-  mount_point {
-    volume = "/mnt/nfs/torrent"
-    path   = "/opt/qbittorrent/downloads"
+    mount   = ["nfs"]
   }
 
   initialization {
@@ -33,8 +29,8 @@ resource "proxmox_virtual_environment_container" "qbittorrent_ct" {
   }
 
   operating_system {
-    template_file_id = "local:vztmpl/ubuntu-25.04-standard_25.04-1.1_amd64.tar.zst"
-    type             = "ubuntu"
+    template_file_id = "local:vztmpl/nixos-image-lxc-proxmox-26.05pre-git-x86_64-linux.tar.xz"
+    type             = "nixos"
   }
 
   disk {
