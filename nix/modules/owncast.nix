@@ -1,6 +1,8 @@
 { config, pkgs, ... }:
 
 {
+  proxmoxLXC.privileged = false;
+
   services.owncast = {
     enable = true;
     listen = "0.0.0.0";

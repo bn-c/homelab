@@ -53,4 +53,16 @@
     
     system.stateVersion = "26.05"; 
   };
+
+  cftest = { name, nodes, pkgs, modulesPath, ... }: {
+    deployment.targetHost = "cftest.local";
+    deployment.targetUser = "root";
+
+    imports = [
+      ./nix/modules/common-lxc.nix
+      ./nix/modules/cloudflared.nix
+    ];
+    
+    system.stateVersion = "26.05"; 
+  };
 }
