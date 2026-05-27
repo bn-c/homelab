@@ -39,7 +39,7 @@ When modifying or analyzing this repository, keep the following rules in mind:
 ### 4. Ansible (`ansible/`) (Legacy)
 - Maintain idempotency in Ansible playbooks. Run tasks so they only make changes when necessary.
 - Update `ansible/inventory/hosts.ini` with correct IP addresses when new infrastructure is provisioned.
-- Service specific playbooks (like `mc.yml`, `qbittorrent.yml`) run tasks directly instead of using separate roles.
+- Service specific playbooks (like `mc.yml`, `owncast.yml`) run tasks directly instead of using separate roles.
 - Docker Compose and configuration files for specific services reside in `ansible/playbooks/files/<service_name>/`.
 
 ### 5. Workflow

@@ -66,13 +66,12 @@ ansible-playbook playbooks/nfs.yml
 ansible-playbook playbooks/mc.yml
 
 # Other playbooks available:
-# jackett.yml, owncast.yml, qbittorrent.yml
+# owncast.yml, qbittorrent.yml
 ```
 
 ## Current Services
 
 - **NFS Server** (`nfs.tf`, `nfs.yml`)
 - **Minecraft Server** (`mc.tf`, `mc.yml`)
-- **Jackett** (`jackett.tf`, `jackett.yml`)
 - **Owncast** (`owncast.tf`, `owncast.yml`)
 - **qBittorrent** (`qbittorrent.tf`, `qbittorrent.yml`)
