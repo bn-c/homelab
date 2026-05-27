@@ -25,5 +25,12 @@
     webuiPort = 80;
     torrentingPort = 16881;
     openFirewall = true;
+    extraArgs = [ "--confirm-legal-notice" ];
+  };
+
+  # Allow qBittorrent to bind to privileged ports (like 80)
+  systemd.services.qbittorrent.serviceConfig = {
+    AmbientCapabilities = [ "CAP_NET_BIND_SERVICE" ];
+    CapabilityBoundingSet = [ "CAP_NET_BIND_SERVICE" ];
   };
 }

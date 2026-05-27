@@ -5,15 +5,15 @@
     };
   };
 
-  qbittorrent = { name, nodes, pkgs, ... }: {
+  qbittorrent = { name, nodes, pkgs, modulesPath, ... }: {
     deployment.targetHost = "qbittorrent.local";
     deployment.targetUser = "root";
 
     imports = [
+      ./nix/modules/common-lxc.nix
       ./nix/modules/qbittorrent.nix
     ];
     
-    boot.isContainer = true;
     system.stateVersion = "26.05"; 
   };
 }
