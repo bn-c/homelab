@@ -4,17 +4,19 @@
   # Enable NFS support
   boot.supportedFilesystems = [ "nfs" ];
 
-  # Mount NFS share directly to the container's path, matching the previous Ansible setup
+  # Mount NFS share directly to the container's path for torrent downloads
   fileSystems."/opt/qbittorrent/downloads" = {
-    device = "nfs.local:/srv/nfs/torrent";
+    device = "nfs.local:/srv/nfs/torrent/downloads";
     fsType = "nfs";
     options = [ "rw" "sync" "hard" "intr" ];
   };
 
-  # Ensure the config folder exists with correct permissions
-  systemd.tmpfiles.rules = [
-    "d /opt/qbittorrent/config 0777 qbittorrent qbittorrent -"
-  ];
+  # Mount NFS share directly to the container's path for the config profile
+  fileSystems."/opt/qbittorrent/config" = {
+    device = "nfs.local:/srv/nfs/torrent/config";
+    fsType = "nfs";
+    options = [ "rw" "sync" "hard" "intr" ];
+  };
 
   # Run qbittorrent as a native NixOS service
   services.qbittorrent = {

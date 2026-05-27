@@ -8,9 +8,17 @@
         state: present
         update_cache: yes
 
-    - name: Create NFS export directory
+    - name: Create NFS export directory for torrent downloads
       file:
-        path: /srv/nfs/torrent
+        path: /srv/nfs/torrent/downloads
+        state: directory
+        owner: nobody
+        group: nogroup
+        mode: '0777'
+
+    - name: Create NFS export directory for qbittorrent config
+      file:
+        path: /srv/nfs/torrent/config
         state: directory
         owner: nobody
         group: nogroup
