@@ -20,6 +20,8 @@
         default = "http_status:404";
         ingress = {
           "owncast.bachnc.dev" = "http://owncast.local";
+          "pve.bachnc.dev" = "http://pve.local:8006";
+          "transmission.bachnc.dev" = "http://transmission.local";
         };
       };
     };

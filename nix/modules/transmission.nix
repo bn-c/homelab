@@ -24,7 +24,7 @@
     openPeerPorts = true;
     settings = {
       download-dir = "/opt/transmission/downloads";
-      rpc-bind-address = "127.0.0.1";
+      rpc-bind-address = "0.0.0.0";
       rpc-port = 9091;
       rpc-whitelist-enabled = false;
       rpc-host-whitelist-enabled = false;
