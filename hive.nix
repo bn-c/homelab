@@ -65,4 +65,16 @@
     
     system.stateVersion = "26.05"; 
   };
+
+  flaresolverr = { name, nodes, pkgs, modulesPath, ... }: {
+    deployment.targetHost = "flaresolverr.local";
+    deployment.targetUser = "root";
+
+    imports = [
+      ./nix/modules/common-lxc.nix
+      ./nix/modules/flaresolverr.nix
+    ];
+    
+    system.stateVersion = "26.05"; 
+  };
 }
