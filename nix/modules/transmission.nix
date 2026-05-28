@@ -45,6 +45,11 @@
     ];
   };
 
+  # Make mediainfo available to flood
+  systemd.services.flood = {
+    path = [ pkgs.mediainfo ];
+  };
+
   # Use firewall networking to forward port 80 to 8080
   networking.firewall = {
     enable = true;

@@ -20,10 +20,23 @@
         default = "http_status:404";
         ingress = {
           "owncast.bachnc.dev" = "http://owncast.local";
-          "pve.bachnc.dev" = "http://pve.local:8006";
+          "pve.bachnc.dev" = {
+            service = "https://192.168.11.2:8006";
+            originRequest.noTLSVerify = true;
+          };
           "transmission.bachnc.dev" = "http://transmission.local";
+          "browser.bachnc.dev" = "http://neko.local:8080";
         };
       };
     };
   };
+
+  # Automatically run route commands during NixOS activation
+  system.activationScripts.routeCloudflareDns = ''
+    ${pkgs.lib.concatStringsSep "\n" (
+      pkgs.lib.mapAttrsToList (hostname: target: ''
+        ${pkgs.cloudflared}/bin/cloudflared tunnel --origincert ${config.deployment.keys."cloudflared-cert.pem".path} route dns homelab-nix ${hostname} || echo "Route for ${hostname} skipped or already exists."
+      '') config.services.cloudflared.tunnels."homelab-nix".ingress
+    )}
+  '';
 }
