@@ -1,12 +1,12 @@
 # Homelab IaC
 
-This repository contains the Infrastructure as Code (OpenTofu) and Configuration as Code (Ansible) for managing a Proxmox homelab.
+This repository contains the Infrastructure as Code (OpenTofu) and Configuration as Code (Colmena/NixOS) for managing a Proxmox homelab.
 
 ## Directory Structure
 
 - `tofu/`: Contains the OpenTofu code to provision Virtual Machines and LXC containers on Proxmox.
-- `ansible/`: Contains Ansible playbooks and inventory to configure the provisioned infrastructure.
-- `.env`: Stores environment variables and secrets (like Proxmox API tokens). Note: `.env` is intentionally ignored in source control (if used).
+- `nix/`: Contains NixOS configuration modules and host definitions.
+- `.env`: Stores environment variables and secrets (like Proxmox API tokens). Note: `.env` is intentionally ignored in source control.
 
 ## Getting Started
 
@@ -53,25 +53,22 @@ tofu plan
 tofu apply
 ```
 
-### 4. Configure Infrastructure (Ansible)
+### 4. Configure Infrastructure (Colmena/NixOS)
 
-Once your VMs are created, update their IPs in `ansible/inventory/hosts.ini` and run specific playbooks to configure corresponding services:
+Once your infrastructure is provisioned, use Colmena to apply NixOS configurations to the containers:
 
 ```bash
-cd ansible
-# Example to deploy the NFS server
-ansible-playbook playbooks/nfs.yml
-
-# Example to deploy Minecraft
-ansible-playbook playbooks/mc.yml
-
-# Other playbooks available:
-# owncast.yml, qbittorrent.yml
+# Apply configurations to all defined nodes
+colmena apply
 ```
 
 ## Current Services
 
-- **NFS Server** (`nfs.tf`, `nfs.yml`)
-- **Minecraft Server** (`mc.tf`, `mc.yml`)
-- **Owncast** (`owncast.tf`, `owncast.yml`)
-- **qBittorrent** (`qbittorrent.tf`, `qbittorrent.yml`)
+- **NFS Server** (`nfs.tf`, `nix/modules/nfs.nix`)
+- **Minecraft Server** (`mc.tf`, `nix/modules/mc.nix`)
+- **Owncast** (`owncast.tf`, `nix/modules/owncast.nix`)
+- **qBittorrent** (`transmission.tf`, `nix/modules/transmission.nix`)
+- **Cloudflared** (`cloudflared.tf`, `nix/modules/cloudflared.nix`)
+- **Flaresolverr** (`flaresolverr.tf`, `nix/modules/flaresolverr.nix`)
+- **Kasm** (`kasm.tf`, `nix/modules/kasm.nix`)
+- **Prowlarr** (`prowlarr.tf`, `nix/modules/prowlarr.nix`)

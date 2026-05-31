@@ -6,99 +6,22 @@
     };
   };
 
-  transmission = { name, nodes, pkgs, modulesPath, ... }: {
-    deployment.targetHost = "transmission.local";
+  mkLxcNode = host: module: {
+    deployment.targetHost = host;
     deployment.targetUser = "root";
-
     imports = [
       ./nix/modules/common-lxc.nix
-      ./nix/modules/transmission.nix
+      module
     ];
-    
-    system.stateVersion = "26.05"; 
+    system.stateVersion = "26.05";
   };
 
-  prowlarr = { name, nodes, pkgs, modulesPath, ... }: {
-    deployment.targetHost = "prowlarr.local";
-    deployment.targetUser = "root";
-
-    imports = [
-      ./nix/modules/common-lxc.nix
-      ./nix/modules/prowlarr.nix
-    ];
-    
-    system.stateVersion = "26.05"; 
-  };
-
-  kasm = { name, nodes, pkgs, modulesPath, ... }: {
-    deployment.targetHost = "kasm.local";
-    deployment.targetUser = "root";
-
-    imports = [
-      ./nix/modules/common-lxc.nix
-      ./nix/modules/kasm.nix
-    ];
-    
-    system.stateVersion = "26.05"; 
-  };
-
-  owncast = { name, nodes, pkgs, modulesPath, ... }: {
-    deployment.targetHost = "owncast.local";
-    deployment.targetUser = "root";
-
-    imports = [
-      ./nix/modules/common-lxc.nix
-      ./nix/modules/owncast.nix
-    ];
-    
-    system.stateVersion = "26.05"; 
-  };
-
-  cftest = { name, nodes, pkgs, modulesPath, ... }: {
-    deployment.targetHost = "cftest.local";
-    deployment.targetUser = "root";
-
-    imports = [
-      ./nix/modules/common-lxc.nix
-      ./nix/modules/cloudflared.nix
-    ];
-    
-    system.stateVersion = "26.05"; 
-  };
-
-  flaresolverr = { name, nodes, pkgs, modulesPath, ... }: {
-    deployment.targetHost = "flaresolverr.local";
-    deployment.targetUser = "root";
-
-    imports = [
-      ./nix/modules/common-lxc.nix
-      ./nix/modules/flaresolverr.nix
-    ];
-    
-    system.stateVersion = "26.05"; 
-  };
-
-  mc = { name, nodes, pkgs, modulesPath, ... }: {
-    deployment.targetHost = "mc.local";
-    deployment.targetUser = "root";
-
-    imports = [
-      ./nix/modules/common-lxc.nix
-      ./nix/modules/mc.nix
-    ];
-    
-    system.stateVersion = "26.05"; 
-  };
-
-  nfs = { name, nodes, pkgs, modulesPath, ... }: {
-    deployment.targetHost = "nfs-nixos.local";
-    deployment.targetUser = "root";
-
-    imports = [
-      ./nix/modules/common-lxc.nix
-      ./nix/modules/nfs.nix
-    ];
-    
-    system.stateVersion = "26.05"; 
-  };
+  transmission = mkLxcNode "transmission.local" ./nix/modules/transmission.nix;
+  prowlarr = mkLxcNode "prowlarr.local" ./nix/modules/prowlarr.nix;
+  kasm = mkLxcNode "kasm.local" ./nix/modules/kasm.nix;
+  owncast = mkLxcNode "owncast.local" ./nix/modules/owncast.nix;
+  cftest = mkLxcNode "cftest.local" ./nix/modules/cloudflared.nix;
+  flaresolverr = mkLxcNode "flaresolverr.local" ./nix/modules/flaresolverr.nix;
+  mc = mkLxcNode "mc.local" ./nix/modules/mc.nix;
+  nfs = mkLxcNode "nfs-nixos.local" ./nix/modules/nfs.nix;
 }
