@@ -31,3 +31,4 @@ vault-password.txt
 
 # secrets
 secrets/
+temp/

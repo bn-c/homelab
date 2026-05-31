@@ -77,4 +77,16 @@
     
     system.stateVersion = "26.05"; 
   };
+
+  mc = { name, nodes, pkgs, modulesPath, ... }: {
+    deployment.targetHost = "mc.local";
+    deployment.targetUser = "root";
+
+    imports = [
+      ./nix/modules/common-lxc.nix
+      ./nix/modules/mc.nix
+    ];
+    
+    system.stateVersion = "26.05"; 
+  };
 }

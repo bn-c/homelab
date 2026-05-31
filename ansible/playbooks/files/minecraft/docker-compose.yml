@@ -67,3 +67,33 @@ services:
     restart: unless-stopped
     volumes:
       - ./stoneblock4:/data
+  gtnh:
+    image: itzg/minecraft-server:java25
+    container_name: minecraft-gtnh
+    ports:
+      - "25566:25565"
+    environment:
+      MEMORY: "12G"
+      EULA: "TRUE"
+      TYPE: GTNH
+      # Enable to delete old config backups
+      GTNH_DELETE_BACKUPS: true
+      CF_API_KEY: "$$2a$$10$$DmicWKdlkD4kVfA8.uBdFO7jFsDw5pGjOJhDVH.S8AE08RT6TaN3G"
+      OPS: | 
+        techtheawesome
+      VIEW_DISTANCE: 24
+      SPAWN_PROTECTION: 0
+      ALLOW_FLIGHT: true
+      ENABLE_COMMAND_BLOCK: true
+      DUMP_SERVER_PROPERTIES: "TRUE"
+      LEVEL: "world"
+      SEED: "xX_BigYahuTelAviv_Xx"
+      # Bring in standard extra mods described at https://wiki.gtnewhorizons.com/wiki/Additional_Mods
+      MODS: |
+        https://github.com/Kynake/BetterFoliage/releases/download/1.2.1/BetterFoliage-LegacyEdition-1.2.1.jar
+
+    tty: true
+    stdin_open: true
+    restart: unless-stopped
+    volumes:
+      - ./gtnh:/data
