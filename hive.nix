@@ -91,7 +91,7 @@
   };
 
   nfs = { name, nodes, pkgs, modulesPath, ... }: {
-    deployment.targetHost = "nfs.local";
+    deployment.targetHost = "nfs-nixos.local";
     deployment.targetUser = "root";
 
     imports = [

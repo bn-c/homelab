@@ -22,11 +22,6 @@
     settings = {
         PermitRootLogin = "yes";
         PasswordAuthentication = true;
-        PermitEmptyPasswords = "yes";
-        # Keep connections alive over NAT or long idle periods (like slow builds)
-        ClientAliveInterval = 60;
-        ClientAliveCountMax = 3;
-        TCPKeepAlive = "yes";
     };
   };
 

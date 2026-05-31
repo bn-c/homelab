@@ -1,6 +1,7 @@
 { config, pkgs, ... }:
 
 {
+  networking.hostName = "nfs-nixos";
   services.nfs.server = {
     enable = true;
     exports = ''

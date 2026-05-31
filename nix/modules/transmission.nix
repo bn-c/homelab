@@ -6,7 +6,7 @@
 
   # Mount NFS share directly to the container's path for torrent downloads
   fileSystems."/opt/transmission/downloads" = {
-    device = "nfs.local:/srv/nfs/torrent/downloads";
+    device = "nfs-nixos.local:/srv/nfs/torrent/downloads";
     fsType = "nfs";
     options = [ "rw" "sync" "hard" "intr" "x-systemd.automount" "noauto" "x-systemd.idle-timeout=600" "_netdev" ];
   };
