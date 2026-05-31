@@ -89,4 +89,16 @@
     
     system.stateVersion = "26.05"; 
   };
+
+  nfs = { name, nodes, pkgs, modulesPath, ... }: {
+    deployment.targetHost = "nfs.local";
+    deployment.targetUser = "root";
+
+    imports = [
+      ./nix/modules/common-lxc.nix
+      ./nix/modules/nfs.nix
+    ];
+    
+    system.stateVersion = "26.05"; 
+  };
 }

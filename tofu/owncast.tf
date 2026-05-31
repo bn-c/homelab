@@ -53,6 +53,7 @@ resource "proxmox_virtual_environment_container" "owncast_ct" {
 
   console {
     enabled = true
+    type    = "console"
   }
 
   started = true
