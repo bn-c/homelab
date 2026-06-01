@@ -62,6 +62,23 @@ Once your infrastructure is provisioned, use Colmena to apply NixOS configuratio
 colmena apply
 ```
 
+### 5. Custom NixOS Live ISO (For VMs)
+
+To build a fresh, customized standard NixOS Live ISO for future Proxmox VM deployments, we use `nixos-generators` powered by the configuration in `nix/iso.nix`:
+
+```bash
+# Optional: Clear garbage to free up root space first
+nix-collect-garbage -d 
+
+# Build the custom ISO into the result/ directory
+nix --extra-experimental-features "nix-command flakes" run nixpkgs#nixos-generators -- -f install-iso -c nix/iso.nix -o result
+
+# Symlink it so OpenTofu can continually reference the same target path
+ln -sfn $(ls -d $PWD/result/iso/*.iso) $PWD/result/iso/nixos-custom-latest.iso
+```
+
+OpenTofu then automatically uploads this synced ISO to Proxmox via tracking the `proxmox_virtual_environment_file.custom_nixos_iso` resource in `tofu/main.tf`, allowing new standard NixOS VMs to easily mount it via the `cdrom` block and begin configuring themselves.
+
 ## Current Services
 
 - **NFS Server** (`nfs.tf`, `nix/modules/nfs.nix`)

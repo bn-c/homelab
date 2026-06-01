@@ -31,6 +31,8 @@ When modifying or analyzing this repository, keep the following rules in mind:
 ### 3. Colmena / NixOS Configuration
 - Utilize `hive.nix` for node registration.
 - For all Proxmox LXC containers configured via Colmena, import `./nix/modules/common-lxc.nix` so that they have baseline capabilities like mDNS (Avahi), SSH access configured, and the `proxmox-lxc` virtualisation profile.
+- There is a custom base VM ISO available at `nix/iso.nix` which can be built via `nix --extra-experimental-features "nix-command flakes" run nixpkgs#nixos-generators -- -f install-iso -c nix/iso.nix -o result`.
+- This custom ISO is symlinked and automatically uploaded to Proxmox via `tofu/main.tf` (`proxmox_virtual_environment_file.custom_nixos_iso`) so it can be used as the base `cdrom` image for deploying declarative NixOS VMs.
 - Store specific service definitions inside `nix/modules/<service_name>.nix` and limit configuration strictly to Nix declarations instead of standard bash scripts whenever possible.
 - Run `colmena apply` after modifying NixOS nodes.
 
@@ -41,6 +43,6 @@ When modifying or analyzing this repository, keep the following rules in mind:
   2. Create or update the corresponding Ansible playbook as a legacy migration.
 - If asked to provision a new service snippet via NixOS:
   1. Add the defined node inside `hive.nix` targeting the IP or `.local` mDNS address.
-  2. Import `./nix/modules/common-lxc.nix` for base configuration.
+  2. Import `./nix/modules/common-lxc.nix` for base configuration (for LXCs). For VMs, ensure you boot them from the `proxmox_virtual_environment_file.custom_nixos_iso` reference built from `nix/iso.nix`.
   3. Create your custom configuration in `nix/modules/<service_name>.nix` and import it.
   4. Ensure `colmena apply` runs smoothly.

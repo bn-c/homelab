@@ -32,3 +32,7 @@ vault-password.txt
 # secrets
 secrets/
 temp/
+
+# Nix Build Artifacts
+result
+result-2
