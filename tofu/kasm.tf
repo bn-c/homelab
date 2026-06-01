@@ -34,7 +34,7 @@ resource "proxmox_virtual_environment_container" "kasm_ct" {
 
   disk {
     datastore_id = "local-lvm"
-    size         = 32
+    size         = 100
   }
 
   memory {
@@ -42,7 +42,7 @@ resource "proxmox_virtual_environment_container" "kasm_ct" {
   }
 
   cpu {
-    cores = 4
+    cores = 16
   }
 
   network_interface {

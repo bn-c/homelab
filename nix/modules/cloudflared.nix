@@ -25,7 +25,10 @@
             originRequest.noTLSVerify = true;
           };
           "transmission.bachnc.dev" = "http://transmission.local";
-          "browser.bachnc.dev" = "http://neko.local:8080";
+          "browser.bachnc.dev" = {
+            service = "https://kasm.local";
+            originRequest.noTLSVerify = true;
+          };
           "owrt.bachnc.dev" = "http://openwrt.local";
           "siyuan.bachnc.dev" = "http://siyuan.local";
           "prowlarr.bachnc.dev" = "http://prowlarr.local";
