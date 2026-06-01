@@ -1,4 +1,4 @@
-resource "proxmox_virtual_environment_file" "sunshine_metadata" {
+resource "proxmox_virtual_environment_file" "sunshine_user_data" {
   content_type = "snippets"
   datastore_id = "local"
   node_name    = "pve"
@@ -22,9 +22,20 @@ chpasswd:
   expire: False
   list: |
     root:techisawesome
-    EOD
+EOD
 
-    file_name = "sunshine-metadata.yaml"
+    file_name = "sunshine-user-data"
+  }
+}
+
+resource "proxmox_virtual_environment_file" "sunshine_meta_data" {
+  content_type = "snippets"
+  datastore_id = "local"
+  node_name    = "pve"
+
+  source_raw {
+    data      = "local-hostname: sunshine"
+    file_name = "sunshine-meta-data"
   }
 }
 
@@ -56,7 +67,8 @@ resource "proxmox_virtual_environment_vm" "sunshine_vm" {
   }
 
   initialization {
-    user_data_file_id = proxmox_virtual_environment_file.sunshine_metadata.id
+    user_data_file_id = proxmox_virtual_environment_file.sunshine_user_data.id
+    meta_data_file_id = proxmox_virtual_environment_file.sunshine_meta_data.id
     ip_config {
       ipv4 {
         address = "dhcp"
