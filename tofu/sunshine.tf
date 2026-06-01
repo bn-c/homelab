@@ -5,8 +5,9 @@ resource "proxmox_virtual_environment_file" "sunshine_metadata" {
 
   source_raw {
     data = <<-EOT
-      instance-id: sunshine
-      local-hostname: sunshine
+      #cloud-config
+      hostname: sunshine
+      manage_etc_hosts: true
     EOT
 
     file_name = "sunshine-metadata.yaml"
@@ -31,6 +32,8 @@ resource "proxmox_virtual_environment_vm" "sunshine_vm" {
     dedicated = 4096
   }
 
+  boot_order = ["virtio0", "ide2"]
+
   cdrom {
     file_id   = proxmox_virtual_environment_file.custom_nixos_iso.id
     interface = "ide2"
@@ -45,6 +48,7 @@ resource "proxmox_virtual_environment_vm" "sunshine_vm" {
 
   initialization {
     meta_data_file_id = proxmox_virtual_environment_file.sunshine_metadata.id
+    datastore_id      = "local-lvm"
 
     ip_config {
       ipv4 {
