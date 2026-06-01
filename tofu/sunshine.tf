@@ -1,3 +1,18 @@
+resource "proxmox_virtual_environment_file" "sunshine_metadata" {
+  content_type = "snippets"
+  datastore_id = "local"
+  node_name    = "pve"
+
+  source_raw {
+    data = <<-EOT
+      instance-id: sunshine
+      local-hostname: sunshine
+    EOT
+
+    file_name = "sunshine-metadata.yaml"
+  }
+}
+
 resource "proxmox_virtual_environment_vm" "sunshine_vm" {
   node_name   = "pve"
   vm_id       = 911
@@ -17,7 +32,6 @@ resource "proxmox_virtual_environment_vm" "sunshine_vm" {
   }
 
   cdrom {
-    enabled   = true
     file_id   = proxmox_virtual_environment_file.custom_nixos_iso.id
     interface = "ide2"
   }
@@ -30,7 +44,8 @@ resource "proxmox_virtual_environment_vm" "sunshine_vm" {
   }
 
   initialization {
-    hostname = "sunshine"
+    meta_data_file_id = proxmox_virtual_environment_file.sunshine_metadata.id
+
     ip_config {
       ipv4 {
         address = "dhcp"

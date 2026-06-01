@@ -1,4 +1,4 @@
-resource "proxmox_virtual_environment_download_file" "ubuntu_cloud_image_nfs" {
+resource "proxmox_download_file" "ubuntu_cloud_image" {
   content_type = "iso"
   datastore_id = "local"
   node_name    = "pve"
@@ -16,7 +16,7 @@ resource "proxmox_virtual_environment_file" "custom_nixos_iso" {
   node_name    = "pve"
 
   source_file {
-    path      = "${path.module}/../result/iso/nixos-custom-latest.iso"
+    path      = "${path.module}/../result/iso/nixos-26.11pre1006943.e9a7635a5759-x86_64-linux.iso"
     file_name = "nixos-custom-live.iso"
   }
 }
