@@ -1,11 +1,4 @@
-{
-  meta = {
-    nixpkgs = import <nixpkgs> {
-      system = "x86_64-linux";
-      config.allowUnfree = true;
-    };
-  };
-
+let
   mkLxcNode = host: module: {
     deployment.targetHost = host;
     deployment.targetUser = "root";
@@ -14,6 +7,14 @@
       module
     ];
     system.stateVersion = "26.05";
+  };
+in
+{
+  meta = {
+    nixpkgs = import <nixpkgs> {
+      system = "x86_64-linux";
+      config.allowUnfree = true;
+    };
   };
 
   transmission = mkLxcNode "transmission.local" ./nix/modules/transmission.nix;
@@ -24,4 +25,5 @@
   flaresolverr = mkLxcNode "flaresolverr.local" ./nix/modules/flaresolverr.nix;
   mc = mkLxcNode "mc.local" ./nix/modules/mc.nix;
   nfs = mkLxcNode "nfs-nixos.local" ./nix/modules/nfs.nix;
+  sunshine = mkLxcNode "sunshine.local" ./nix/modules/sunshine.nix;
 }
