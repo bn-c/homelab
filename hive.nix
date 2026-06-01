@@ -21,7 +21,7 @@ in
   prowlarr = mkLxcNode "prowlarr.local" ./nix/modules/prowlarr.nix;
   kasm = mkLxcNode "kasm.local" ./nix/modules/kasm.nix;
   owncast = mkLxcNode "owncast.local" ./nix/modules/owncast.nix;
-  cftest = mkLxcNode "cftest.local" ./nix/modules/cloudflared.nix;
+  cloudflared = mkLxcNode "cftest.local" ./nix/modules/cloudflared.nix;
   flaresolverr = mkLxcNode "flaresolverr.local" ./nix/modules/flaresolverr.nix;
   mc = mkLxcNode "mc.local" ./nix/modules/mc.nix;
   nfs = mkLxcNode "nfs-nixos.local" ./nix/modules/nfs.nix;

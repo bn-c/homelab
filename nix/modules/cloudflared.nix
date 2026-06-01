@@ -26,6 +26,9 @@
           };
           "transmission.bachnc.dev" = "http://transmission.local";
           "browser.bachnc.dev" = "http://neko.local:8080";
+          "owrt.bachnc.dev" = "http://openwrt.local";
+          "siyuan.bachnc.dev" = "http://siyuan.local";
+          "prowlarr.bachnc.dev" = "http://prowlarr.local";
         };
       };
     };

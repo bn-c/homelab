@@ -52,7 +52,10 @@
         "WAYLAND_DISPLAY=wayland-1"
         "XDG_RUNTIME_DIR=/run/user/1000"
       ];
-      ExecStartPre = "${pkgs.coreutils}/bin/mkdir -p /run/user/1000 && ${pkgs.coreutils}/bin/chown rdpuser:rdpuser /run/user/1000";
+      ExecStartPre = [
+        "+${pkgs.coreutils}/bin/mkdir -p /run/user/1000"
+        "+${pkgs.coreutils}/bin/chown rdpuser /run/user/1000"
+      ];
       # Start sway and drop a terminal or xfce4-panel inside it. 
       ExecStart = "${pkgs.sway}/bin/sway -d";
       Restart = "always";
@@ -82,7 +85,10 @@
       Type = "simple";
       User = "rdpuser";
       # Require access to uinput to inject controls
-      ExecStartPre = "+${pkgs.coreutils}/bin/chmod a+rw /dev/uinput"; 
+      ExecStartPre = [
+        "+-${pkgs.coreutils}/bin/mknod /dev/uinput c 10 223"
+        "+${pkgs.coreutils}/bin/chmod a+rw /dev/uinput"
+      ];
       Environment = [
         "WAYLAND_DISPLAY=wayland-1"
         "XDG_RUNTIME_DIR=/run/user/1000"
@@ -98,6 +104,8 @@
     foot            # terminal for sway
     xfce.thunar     # file manager
     firefox         # web browser
+    dbus            # required for dbus-run-session used by sway
   ];
 
+  services.dbus.implementation = "dbus";
 }

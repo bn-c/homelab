@@ -2,7 +2,7 @@ resource "proxmox_virtual_environment_container" "sunshine_ct" {
   node_name    = "pve"
   vm_id        = 911
   description  = "Headless Wayland Desktop (Sunshine)"
-  unprivileged = true
+  unprivileged = false
 
   features {
     nesting = true
