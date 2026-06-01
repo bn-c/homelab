@@ -7,6 +7,7 @@
     enable = true;
     listenPort = 443;
     datastorePath = "/var/lib/kasmweb";
+    defaultAdminPassword = "techisawesome";
   };
 
   networking.firewall = {
