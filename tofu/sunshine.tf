@@ -54,7 +54,7 @@ resource "proxmox_virtual_environment_vm" "sunshine_vm" {
   }
 
   memory {
-    dedicated = 4096
+    dedicated = 8192
   }
 
   boot_order = ["virtio0"]
