@@ -35,4 +35,4 @@ temp/
 
 # Nix Build Artifacts
 result
-result-2
+result-*

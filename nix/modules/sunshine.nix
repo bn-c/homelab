@@ -1,6 +1,8 @@
 { config, pkgs, ... }:
 
 {
+  networking.hostName = "sunshine";
+
   boot.kernelModules = [ "uinput" ];
 
   # --------------------------------------------------------------------------
