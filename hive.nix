@@ -8,6 +8,27 @@ let
     ];
     system.stateVersion = "26.05";
   };
+  mkVmNode = host: module: { modulesPath, ... }: {
+    deployment.targetHost = host;
+    deployment.targetUser = "root";
+    imports = [
+      (modulesPath + "/profiles/qemu-guest.nix")
+      module
+    ];
+    
+    fileSystems."/" = {
+      device = "/dev/disk/by-label/nixos";
+      fsType = "ext4";
+    };
+    
+    boot.loader.grub.enable = true;
+    boot.loader.grub.device = "/dev/vda";
+
+    services.openssh.enable = true;
+    services.openssh.settings.PermitRootLogin = "yes";
+    services.qemuGuest.enable = true;
+    system.stateVersion = "26.05";
+  };
 in
 {
   meta = {
@@ -25,5 +46,5 @@ in
   flaresolverr = mkLxcNode "flaresolverr.local" ./nix/modules/flaresolverr.nix;
   mc = mkLxcNode "mc.local" ./nix/modules/mc.nix;
   nfs = mkLxcNode "nfs-nixos.local" ./nix/modules/nfs.nix;
-  sunshine = mkLxcNode "sunshine.local" ./nix/modules/sunshine.nix;
+  sunshine = mkVmNode "sunshine.local" ./nix/modules/sunshine.nix;
 }

@@ -1,6 +1,8 @@
 { config, pkgs, ... }:
 
 {
+  boot.kernelModules = [ "uinput" ];
+
   # --------------------------------------------------------------------------
   # 1. Pipeline & Graphics setup
   # --------------------------------------------------------------------------
@@ -85,10 +87,6 @@
       Type = "simple";
       User = "rdpuser";
       # Require access to uinput to inject controls
-      ExecStartPre = [
-        "+-${pkgs.coreutils}/bin/mknod /dev/uinput c 10 223"
-        "+${pkgs.coreutils}/bin/chmod a+rw /dev/uinput"
-      ];
       Environment = [
         "WAYLAND_DISPLAY=wayland-1"
         "XDG_RUNTIME_DIR=/run/user/1000"

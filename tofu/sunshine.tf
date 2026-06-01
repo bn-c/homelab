@@ -1,11 +1,32 @@
-resource "proxmox_virtual_environment_container" "sunshine_ct" {
-  node_name    = "pve"
-  vm_id        = 911
-  description  = "Headless Wayland Desktop (Sunshine)"
-  unprivileged = false
+resource "proxmox_virtual_environment_vm" "sunshine_vm" {
+  node_name   = "pve"
+  vm_id       = 911
+  name        = "sunshine"
+  description = "Headless Wayland Desktop (Sunshine)"
 
-  features {
-    nesting = true
+  agent {
+    enabled = true
+  }
+
+  cpu {
+    cores = 4
+  }
+
+  memory {
+    dedicated = 4096
+  }
+
+  cdrom {
+    enabled   = true
+    file_id   = proxmox_virtual_environment_file.custom_nixos_iso.id
+    interface = "ide2"
+  }
+
+  disk {
+    datastore_id = "local-lvm"
+    file_format  = "raw"
+    interface    = "virtio0"
+    size         = 32
   }
 
   initialization {
@@ -19,45 +40,19 @@ resource "proxmox_virtual_environment_container" "sunshine_ct" {
       }
     }
     user_account {
-      password = "techisawesome" # Standardizing based on your workspace
       keys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPbpFP/1DMoIMlkxeg1W0BIfQeokpbanE61WldpqjzHe root@coder-bn-c-dev",
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID+nh8Nwmib5blLo1W2rawfg4b6UKkrOwh9QF+3ARZRq tech@desk"
       ]
+      password = "techisawesome"
     }
   }
 
+  network_device {
+    bridge = "vmbr1lan"
+  }
+
   operating_system {
-    template_file_id = "local:vztmpl/nixos-image-lxc-proxmox-26.05pre-git-x86_64-linux.tar.xz"
-    type             = "nixos"
+    type = "l26"
   }
-
-  disk {
-    datastore_id = "local-lvm"
-    size         = 32
-  }
-
-  memory {
-    dedicated = 4096 # Enough for remote headless Wayland and desktop tools
-  }
-
-  cpu {
-    cores = 4
-  }
-
-  network_interface {
-    name     = "eth0"
-    bridge   = "vmbr1lan"
-    firewall = true
-  }
-
-  # Add /dev/uinput for Sunshine mouse/keyboard injection.
-  # Note: The host proxmox node needs the "uinput" kernel module loaded (e.g., `modprobe uinput`).
-  # You might also want `mdev` or `lxc.cgroup2.devices.allow = c 10:223 rwm` in LXC explicitly depending on provider version support.
-  console {
-    enabled = true
-    type    = "console"
-  }
-
-  started = true
 }

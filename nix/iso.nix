@@ -3,6 +3,10 @@
   # Enable QEMU guest agent for Proxmox
   services.qemuGuest.enable = true;
 
+  # Enable Cloud-Init so Proxmox VMs can read the `initialization` block (hostname, keys, etc.)
+  services.cloud-init.enable = true;
+  services.cloud-init.network.enable = true;
+
   # Enable SSH
   services.openssh.enable = true;
   services.openssh.settings.PermitRootLogin = "yes";
