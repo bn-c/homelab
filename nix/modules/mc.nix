@@ -29,7 +29,7 @@
         EULA = "TRUE";
         TYPE = "AUTO_CURSEFORGE";
         CF_PAGE_URL = "https://www.curseforge.com/minecraft/modpacks/ftb-stoneblock-4";
-        MEMORY = "12G";
+        MEMORY = "10G";
         CF_API_KEY = "$$2a$$10$$DmicWKdlkD4kVfA8.uBdFO7jFsDw5pGjOJhDVH.S8AE08RT6TaN3G";
         OPS = "techtheawesome";
         VIEW_DISTANCE = "24";
@@ -45,9 +45,10 @@
     "minecraft-gtnh" = {
       image = "itzg/minecraft-server:java25";
       autoStart = true;
-      ports = [ "25566:25565" ];
+      ports = [ "25566:25566" ];
       environment = {
-        MEMORY = "12G";
+        SERVER_PORT = "25566";
+        MEMORY = "10G";
         EULA = "TRUE";
         TYPE = "GTNH";
         GTNH_DELETE_BACKUPS = "true";
@@ -60,7 +61,14 @@
         DUMP_SERVER_PROPERTIES = "TRUE";
         LEVEL = "world";
         SEED = "xX_BigYahuTelAviv_Xx";
-        MODS = "https://github.com/Kynake/BetterFoliage/releases/download/1.2.1/BetterFoliage-LegacyEdition-1.2.1.jar";
+        # Force IPv4
+        JAVA_TOOL_OPTIONS = "-Djava.net.preferIPv4Stack=true";
+        GENERIC_PACKS_DISABLE_MODS = "JourneyMapServer1.0.5_MC1.7.10.jar";
+        MODS = lib.concatStringsSep "," [
+          "https://github.com/Kynake/BetterFoliage/releases/download/1.2.1/BetterFoliage-LegacyEdition-1.2.1.jar"
+          "https://github.com/GTNewHorizons/SharedProspecting/releases/download/2.0.5/sharedprospecting-2.0.5.jar"
+          "https://cdn.modrinth.com/data/lfHFW1mp/versions/lTcFpNxW/journeymap-1.7.10-v5.2.17-unlimited.jar"
+        ];
       };
       extraOptions = [ "--tty" "--interactive" "--health-cmd" "none"];
       volumes = [ "/var/lib/minecraft/gtnh:/data" ];
