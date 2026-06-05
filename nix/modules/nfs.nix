@@ -5,7 +5,7 @@
   services.nfs.server = {
     enable = true;
     exports = ''
-      /srv/nfs *(rw,sync,no_subtree_check,root_squash)
+      /srv/nfs *(rw,sync,no_subtree_check,all_squash,anonuid=65534,anongid=65534)
     '';
   };
 

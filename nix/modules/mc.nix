@@ -5,10 +5,10 @@
   networking.firewall.allowedTCPPorts = [ 25565 25566 ];
   networking.firewall.allowedUDPPorts = [ 25565 25566 ];
 
-  # Use Podman or Docker to manage containers
-  virtualisation.oci-containers.backend = "podman";
-  virtualisation.podman.enable = true;
-  virtualisation.podman.autoPrune.enable = true;
+  # Use Docker to manage containers
+  virtualisation.oci-containers.backend = "docker";
+  virtualisation.docker.enable = true;
+  virtualisation.docker.autoPrune.enable = true;
 
   # Ensure data directory exists
   system.activationScripts.minecraft-data-dir = {
@@ -38,7 +38,7 @@
         ENABLE_COMMAND_BLOCK = "true";
         DIFFICULTY = "hard";
       };
-      extraOptions = [ "--tty" "--interactive" "--health-cmd" "none" ];
+      extraOptions = [ "--health-cmd" "none" ];
       volumes = [ "/var/lib/minecraft/stoneblock4:/data" ];
     };
 
@@ -70,20 +70,20 @@
           "https://cdn.modrinth.com/data/lfHFW1mp/versions/lTcFpNxW/journeymap-1.7.10-v5.2.17-unlimited.jar"
         ];
       };
-      extraOptions = [ "--tty" "--interactive" "--health-cmd" "none"];
+      extraOptions = [ "--health-cmd" "none" ];
       volumes = [ "/var/lib/minecraft/gtnh:/data" ];
     };
   };
 
   systemd.services = {
-    "podman-minecraft-stoneblock4" = {
+    "docker-minecraft-stoneblock4" = {
       serviceConfig = {
         Restart = lib.mkForce "always";
         RestartSec = "10s";
       };
     };
     
-    "podman-minecraft-gtnh" = {
+    "docker-minecraft-gtnh" = {
       serviceConfig = {
         Restart = lib.mkForce "always";
         RestartSec = "10s";

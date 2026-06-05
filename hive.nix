@@ -2,6 +2,7 @@ let
   mkLxcNode = host: module: {
     deployment.targetHost = host;
     deployment.targetUser = "root";
+    deployment.buildOnTarget = true;
     imports = [
       ./nix/modules/common-lxc.nix
       module
@@ -11,6 +12,7 @@ let
   mkVmNode = host: module: { modulesPath, ... }: {
     deployment.targetHost = host;
     deployment.targetUser = "root";
+    deployment.buildOnTarget = true;
     imports = [
       (modulesPath + "/profiles/qemu-guest.nix")
       module
