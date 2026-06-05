@@ -57,5 +57,9 @@ resource "proxmox_virtual_environment_container" "nfs_nixos_ct" {
     type    = "console"
   }
 
+  startup {
+    order = 2
+  }
+
   started = true
 }
