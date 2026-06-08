@@ -42,10 +42,13 @@ in
 
   transmission = mkLxcNode "transmission.local" ./nix/modules/transmission.nix;
   prowlarr = mkLxcNode "prowlarr.local" ./nix/modules/prowlarr.nix;
+  sonarr = mkLxcNode "sonarr.local" ./nix/modules/sonarr.nix;
+  bazarr = mkLxcNode "bazarr.local" ./nix/modules/bazarr.nix;
   kasm = mkLxcNode "kasm.local" ./nix/modules/kasm.nix;
   owncast = mkLxcNode "owncast.local" ./nix/modules/owncast.nix;
   cloudflared = mkLxcNode "cftest.local" ./nix/modules/cloudflared.nix;
   flaresolverr = mkLxcNode "flaresolverr.local" ./nix/modules/flaresolverr.nix;
   mc = mkLxcNode "mc.local" ./nix/modules/mc.nix;
   nfs = mkLxcNode "nfs-nixos.local" ./nix/modules/nfs.nix;
+  jellyfin = mkLxcNode "jellyfin.local" ./nix/modules/jellyfin.nix;
 }
