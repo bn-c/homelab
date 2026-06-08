@@ -8,8 +8,18 @@
   fileSystems."/opt/transmission/downloads" = {
     device = "nfs-nixos.local:/srv/nfs/torrent/downloads";
     fsType = "nfs";
-    options = [ "rw" "sync" "hard" "intr" "x-systemd.automount" "noauto" "x-systemd.idle-timeout=600" "_netdev" ];
+    options = [ "rw" "sync" "hard" "intr" "_netdev" ];
   };
+  fileSystems."/opt/transmission/incomplete" = {
+    device = "nfs-nixos.local:/srv/nfs/torrent/incomplete";
+    fsType = "nfs";
+    options = [ "rw" "sync" "hard" "intr" "_netdev" ];
+  };
+
+  systemd.tmpfiles.rules = [
+    "d /opt/transmission 0755 transmission transmission -"
+  ];
+
 
   # Run Transmission as a native NixOS service
   services.transmission = {
@@ -24,6 +34,8 @@
     openPeerPorts = true;
     settings = {
       download-dir = "/opt/transmission/downloads";
+      incomplete-dir-enabled = true;
+      incomplete-dir = "/opt/transmission/incomplete";
       rpc-bind-address = "0.0.0.0";
       rpc-port = 9091;
       rpc-whitelist-enabled = false;

@@ -35,7 +35,7 @@ resource "proxmox_virtual_environment_container" "nfs_nixos_ct" {
 
   disk {
     datastore_id = "local-lvm"
-    size         = 150
+    size         = 200
   }
 
   memory {
