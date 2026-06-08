@@ -21,7 +21,7 @@ When modifying or analyzing this repository, keep the following rules in mind:
 
 ### 1. General Principles
 - Understand the separation of concerns: OpenTofu is for creating VMs/containers (infrastructure), while NixOS configuration is for installing software and configuring them (configuration).
-- Do not commit secrets. Ensure files like `.env`, `terraform.tfvars`, and other sensitive files are handled properly and gitignored.
+- Do not commit secrets. Ensure files like `.env`, `terraform.tfvars`, and other sensitive files within the `secrets/` directory are handled properly and gitignored.
 
 ### 2. OpenTofu (`tofu/`)
 - Always use the `tofu` CLI tool instead of `terraform`.
@@ -31,18 +31,14 @@ When modifying or analyzing this repository, keep the following rules in mind:
 ### 3. Colmena / NixOS Configuration
 - Utilize `hive.nix` for node registration.
 - For all Proxmox LXC containers configured via Colmena, import `./nix/modules/common-lxc.nix` so that they have baseline capabilities like mDNS (Avahi), SSH access configured, and the `proxmox-lxc` virtualisation profile.
-- There is a custom base VM ISO available at `nix/iso.nix` which can be built via `nix --extra-experimental-features "nix-command flakes" run nixpkgs#nixos-generators -- -f install-iso -c nix/iso.nix -o result`.
-- This custom ISO is symlinked and automatically uploaded to Proxmox via `tofu/main.tf` (`proxmox_virtual_environment_file.custom_nixos_iso`) so it can be used as the base `cdrom` image for deploying declarative NixOS VMs.
+- There is a custom base VM image available at `nix/iso.nix` which can be built as a qcow2 cloud image.
+- This custom image is uploaded to Proxmox via `tofu/main.tf` (`proxmox_virtual_environment_file.custom_nixos_qcow2`) sourced from `../result-qcow/nixos.qcow2` so it can be used as the base image for deploying declarative NixOS VMs.
 - Store specific service definitions inside `nix/modules/<service_name>.nix` and limit configuration strictly to Nix declarations instead of standard bash scripts whenever possible.
 - Run `colmena apply` after modifying NixOS nodes.
 
-
-### 5. Workflow
-- If asked to provision a new service snippet via Ansible:
-  1. Add the necessary VM/LXC definition in `tofu/<service_name>.tf` (and update variables if needed).
-  2. Create or update the corresponding Ansible playbook as a legacy migration.
+### 4. Workflow
 - If asked to provision a new service snippet via NixOS:
   1. Add the defined node inside `hive.nix` targeting the IP or `.local` mDNS address.
-  2. Import `./nix/modules/common-lxc.nix` for base configuration (for LXCs). For VMs, ensure you boot them from the `proxmox_virtual_environment_file.custom_nixos_iso` reference built from `nix/iso.nix`.
+  2. Import `./nix/modules/common-lxc.nix` for base configuration (for LXCs). For VMs, ensure you boot them from the `proxmox_virtual_environment_file.custom_nixos_qcow2` reference.
   3. Create your custom configuration in `nix/modules/<service_name>.nix` and import it.
   4. Ensure `colmena apply` runs smoothly.
