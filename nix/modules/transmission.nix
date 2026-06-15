@@ -34,8 +34,7 @@
     openPeerPorts = true;
     settings = {
       download-dir = "/opt/transmission/downloads";
-      incomplete-dir-enabled = true;
-      incomplete-dir = "/opt/transmission/incomplete";
+      incomplete-dir-enabled = false;
       rpc-bind-address = "0.0.0.0";
       rpc-port = 9091;
       rpc-whitelist-enabled = false;

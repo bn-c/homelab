@@ -20,6 +20,7 @@
         default = "http_status:404";
         ingress = {
           "owncast.bachnc.dev" = "http://owncast.local";
+          "jellyfin.bachnc.dev" = "http://jellyfin.local:8096";
           "pve.bachnc.dev" = {
             service = "https://192.168.11.2:8006";
             originRequest.noTLSVerify = true;
