@@ -10,11 +10,6 @@
     fsType = "nfs";
     options = [ "rw" "sync" "hard" "intr" "_netdev" ];
   };
-  fileSystems."/opt/transmission/incomplete" = {
-    device = "nfs-nixos.local:/srv/nfs/torrent/incomplete";
-    fsType = "nfs";
-    options = [ "rw" "sync" "hard" "intr" "_netdev" ];
-  };
 
   systemd.tmpfiles.rules = [
     "d /opt/transmission 0755 transmission transmission -"
