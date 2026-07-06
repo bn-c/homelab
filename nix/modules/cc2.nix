@@ -62,12 +62,7 @@ in {
     "cc2-server" = {
       image = "cc2-server:latest";
       autoStart = true;
-      ports = [
-        "24999:24999/udp"
-        "25000:25000/udp"
-        "25001:25001/udp"
-        "25002:25002/udp"
-      ];
+      extraOptions = [ "--network=host" ];
       volumes = [
         "/var/lib/cc2/server_config.xml:/home/steam/cc2_server/server_config.xml"
         "/var/lib/cc2/saved_games:/home/steam/cc2_server/saved_games"
