@@ -7,7 +7,7 @@ in {
   imports = [ ./common-lxc.nix ];
   networking.hostName = "cc2";
 
-  networking.firewall.allowedUDPPorts = [ 25565 25566 25567 25568 ];
+  networking.firewall.allowedUDPPorts = [ 24999 25000 25001 25002 ];
 
   virtualisation.oci-containers.backend = "docker";
   virtualisation.docker.enable = true;
@@ -63,10 +63,10 @@ in {
       image = "cc2-server:latest";
       autoStart = true;
       ports = [
-        "25565:25565/udp"
-        "25566:25566/udp"
-        "25567:25567/udp"
-        "25568:25568/udp"
+        "24999:24999/udp"
+        "25000:25000/udp"
+        "25001:25001/udp"
+        "25002:25002/udp"
       ];
       volumes = [
         "/var/lib/cc2/server_config.xml:/home/steam/cc2_server/server_config.xml"
