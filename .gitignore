@@ -36,3 +36,4 @@ temp/
 # Nix Build Artifacts
 result
 result-*
+/nix/modules/cc2/game_files/

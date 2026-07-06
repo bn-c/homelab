@@ -51,4 +51,5 @@ in
   mc = mkLxcNode "mc.local" ./nix/modules/mc.nix;
   nfs = mkLxcNode "nfs-nixos.local" ./nix/modules/nfs.nix;
   jellyfin = mkLxcNode "jellyfin.local" ./nix/modules/jellyfin.nix;
+  cc2 = mkLxcNode "cc2.local" ./nix/modules/cc2.nix;
 }

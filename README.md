@@ -71,10 +71,7 @@ To build a fresh, customized standard NixOS Live ISO for future Proxmox VM deplo
 nix-collect-garbage -d 
 
 # Build the custom ISO into the result/ directory
-nix --extra-experimental-features "nix-command flakes" run nixpkgs#nixos-generators -- -f proxmox -c nix/iso.nix -o result
-
-# Symlink it so OpenTofu can continually reference the same target path
-ln -sfn $(ls -d $PWD/result/iso/*.iso) $PWD/result/iso/nixos-custom-latest.iso
+nix --extra-experimental-features "nix-command flakes" run nixpkgs#nixos-generators -- -f qcow -c nix/iso.nix -o result-qcow
 ```
 
 OpenTofu then automatically uploads this synced ISO to Proxmox via tracking the `proxmox_virtual_environment_file.custom_nixos_iso` resource in `tofu/main.tf`, allowing new standard NixOS VMs to easily mount it via the `cdrom` block and begin configuring themselves.

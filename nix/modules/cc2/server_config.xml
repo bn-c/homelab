@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data port="25565" max_players="4" server_name="My CC2 Server" password="" island_count="16" team_count_ai="1" team_count_human="1" carrier_count_per_team="1" island_count_per_team="1" base_difficulty="1" loadout_type="0" blueprints="0" game_data_path="rom_0" save_name="">
+	<permissions>
+		<!-- Add your SteamID64 here to grant admin/ban rights, e.g.: -->
+		<!-- <peer steam_id="76561197960287930" is_banned="false" is_admin="true"/> -->
+	</permissions>
+	<active_mod_folders/>
+</data>
