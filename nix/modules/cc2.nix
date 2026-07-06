@@ -34,6 +34,9 @@ in {
       echo "Updating Dockerfile in /var/lib/cc2/ from Nix store..."
       cp -f ${dockerfile} /var/lib/cc2/Dockerfile
 
+      echo "Cleaning old game files..."
+      rm -rf /var/lib/cc2/game_files/*
+
       echo "Copying game files from host..."
       cp -r ${gameFiles}/* /var/lib/cc2/game_files/
 
