@@ -15,7 +15,7 @@ in {
 
   # Ensure data directory exists
   system.activationScripts.cc2-data-dir = {
-    text = "mkdir -p /var/lib/cc2/saved_games /var/lib/cc2/game_files /var/lib/cc2/logs";
+    text = "mkdir -p /var/lib/cc2/saved_games /var/lib/cc2/game_files /var/lib/cc2/logs /var/lib/cc2/wine_prefix";
     deps = [];
   };
 
@@ -67,6 +67,7 @@ in {
         "/var/lib/cc2/server_config.xml:/home/steam/cc2_server/server_config.xml"
         "/var/lib/cc2/saved_games:/home/steam/cc2_server/saved_games"
         "/var/lib/cc2/logs:/home/steam/logs"
+        "/var/lib/cc2/wine_prefix:/root/.wine"
       ];
     };
   };
