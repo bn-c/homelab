@@ -18,7 +18,15 @@ sudo apt install steamcmd
 1. Run the following command to download the server files to the required local directory:
 
 ```bash
-/usr/games/steamcmd +@sSteamCmdForcePlatformType windows +force_install_dir "/root/nfs/homelab/nix/modules/cc2/game_files/" +login techtheawesome +app_update 1489630 validate +app_update 1007 validate +quit
+/usr/games/steamcmd \
+  +@sSteamCmdForcePlatformType windows \
+  +force_install_dir "/root/nfs/homelab/nix/modules/cc2/game_files/" \
+  +login techtheawesome \
+  +app_update 1489630 validate \
+  +app_update 1007 validate \
+  +workshop_download_item 1489630 2824746567 \
+  +workshop_download_item 1489630 2990101940 \
+  +quit
 ```
 
 2. After the download finishes, verify the files are present:
