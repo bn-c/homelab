@@ -4,6 +4,10 @@ resource "proxmox_virtual_environment_container" "jellyfin_ct" {
   description  = "Jellyfin container"
   unprivileged = false
 
+  lifecycle {
+    ignore_changes = [initialization, operating_system]
+  }
+
   features {
     nesting = true
     mount   = ["nfs"]

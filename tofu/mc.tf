@@ -4,6 +4,10 @@ resource "proxmox_virtual_environment_container" "minecraft_nixos_ct" {
   description  = "Minecraft server container (NixOS)"
   unprivileged = true
 
+  lifecycle {
+    ignore_changes = [initialization, operating_system]
+  }
+
   features {
     nesting = true
   }

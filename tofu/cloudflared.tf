@@ -4,6 +4,10 @@ resource "proxmox_virtual_environment_container" "cloudflared_ct" {
   description  = "Cloudflared container"
   unprivileged = true
 
+  lifecycle {
+    ignore_changes = [initialization, operating_system]
+  }
+
   features {
     nesting = true
   }
