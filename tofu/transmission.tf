@@ -43,7 +43,7 @@ resource "proxmox_virtual_environment_container" "transmission_ct" {
   }
 
   memory {
-    dedicated = 2048
+    dedicated = 4096
   }
 
   cpu {

@@ -8,12 +8,14 @@
   # Use Docker to manage containers
   virtualisation.oci-containers.backend = "docker";
   virtualisation.docker.enable = true;
+  virtualisation.docker.package = pkgs.docker_29;
   virtualisation.docker.autoPrune.enable = true;
 
   # Ensure data directory exists
   system.activationScripts.minecraft-data-dir = {
     text = ''
       mkdir -p /var/lib/minecraft/stoneblock4
+      mkdir -p /var/lib/minecraft/deceasedcraft
       mkdir -p /var/lib/minecraft/gtnh
     '';
     deps = [];
@@ -23,8 +25,8 @@
   virtualisation.oci-containers.containers = {
     "minecraft-stoneblock4" = {
       image = "itzg/minecraft-server:java21";
-      autoStart = true;
-      ports = [ "25565:25565" ];
+      autoStart = false;
+      ports = [ "25567:25565" ];
       environment = {
         EULA = "TRUE";
         TYPE = "AUTO_CURSEFORGE";
@@ -42,9 +44,30 @@
       volumes = [ "/var/lib/minecraft/stoneblock4:/data" ];
     };
 
+    "minecraft-deceasedcraft" = {
+      image = "itzg/minecraft-server:java21";
+      autoStart = true;
+      ports = [ "25565:25565" ];
+      environment = {
+        EULA = "TRUE";
+        TYPE = "AUTO_CURSEFORGE";
+        CF_PAGE_URL = "https://www.curseforge.com/minecraft/modpacks/deceasedcraft";
+        MEMORY = "10G";
+        CF_API_KEY = "$$2a$$10$$DmicWKdlkD4kVfA8.uBdFO7jFsDw5pGjOJhDVH.S8AE08RT6TaN3G";
+        OPS = "techtheawesome";
+        VIEW_DISTANCE = "24";
+        SPAWN_PROTECTION = "0";
+        ALLOW_FLIGHT = "true";
+        ENABLE_COMMAND_BLOCK = "true";
+        DIFFICULTY = "hard";
+      };
+      extraOptions = [ "--health-cmd" "none" ];
+      volumes = [ "/var/lib/minecraft/deceasedcraft:/data" ];
+    };
+
     "minecraft-gtnh" = {
       image = "itzg/minecraft-server:java25";
-      autoStart = true;
+      autoStart = false;
       ports = [ "25566:25566" ];
       environment = {
         SERVER_PORT = "25566";
@@ -78,14 +101,21 @@
   systemd.services = {
     "docker-minecraft-stoneblock4" = {
       serviceConfig = {
+        Restart = lib.mkForce "no";
+        RestartSec = "10s";
+      };
+    };
+
+    "docker-minecraft-deceasedcraft" = {
+      serviceConfig = {
         Restart = lib.mkForce "always";
         RestartSec = "10s";
       };
     };
-    
+
     "docker-minecraft-gtnh" = {
       serviceConfig = {
-        Restart = lib.mkForce "always";
+        Restart = lib.mkForce "no";
         RestartSec = "10s";
       };
     };

@@ -25,7 +25,7 @@ When modifying or analyzing this repository, keep the following rules in mind:
 
 ### 2. OpenTofu (`tofu/`)
 - Always use the `tofu` CLI tool instead of `terraform`.
-- Proxmox provider configuration relies on API tokens (e.g., `PROXMOX_API_TOKEN_ID` and `PROXMOX_API_TOKEN_SECRET`).
+- Proxmox provider configuration uses username/password (`proxmox_password`, `proxmox_ssh_password` via `terraform.tfvars` or `TF_VAR_*` in `.env`).
 - Before applying changes, always run `tofu plan` to verify what will be created/modified.
 
 ### 3. Colmena / NixOS Configuration

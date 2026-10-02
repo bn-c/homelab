@@ -6,36 +6,19 @@ This repository contains the Infrastructure as Code (OpenTofu) and Configuration
 
 - `tofu/`: Contains the OpenTofu code to provision Virtual Machines and LXC containers on Proxmox.
 - `nix/`: Contains NixOS configuration modules and host definitions.
-- `.env`: Stores environment variables and secrets (like Proxmox API tokens). Note: `.env` is intentionally ignored in source control.
+- `.env`: Stores environment variables and secrets (Proxmox password). Note: `.env` is intentionally ignored in source control.
 
 ## Getting Started
 
-### 1. Generating a Proxmox API Token
+### 1. Configure Credentials
 
-To allow OpenTofu to securely manage your Proxmox server without using the root password, you should create an API token:
+OpenTofu authenticates to Proxmox with username/password (`tofu/providers.tf`).
 
-1. Log into your Proxmox Web UI (e.g. `https://192.168.11.2:8006`).
-2. Go to **Datacenter** (left sidebar) -> **Permissions** -> **Users**.
-3. (Optional but recommended) Create a new user e.g. `tofu` at the `pam` or `pve` realm.
-4. Go to **Permissions** -> **API Tokens**.
-5. Click **Add**, select your user (e.g., `root@pam` or `tofu@pve`), and give the token an ID like `tofu-provisioner`. Uncheck "Privilege Separation" if you want it to have full user permissions, or leave it checked and manually assign permissions to the token.
-6. Click **Add**. **IMPORTANT:** Proxmox will display the Token Secret *only once*. Copy it immediately.
-7. Go to **Permissions**, click **Add** -> **User Permission** or **API Token Permission**, and assign the `Administrator` role to the user or token at the `/` path to ensure OpenTofu has all necessary privileges.
+1. Edit `.env` (already created from `.env.example`) and set your Proxmox passwords.
+2. Or edit `tofu/terraform.tfvars` (same values). Either works; OpenTofu reads `TF_VAR_*` and/or `terraform.tfvars`.
+3. [direnv](https://direnv.net/) auto-loads `.env` via `.envrc` when you `cd` into the repo (`direnv allow` once if prompted).
 
-### 2. Configure Credentials
-
-1. Copy `.env.example` to `.env`:
-   ```bash
-   cp .env.example .env
-   ```
-2. Update `.env` with your newly created Token ID (e.g. `root@pam!tofu-provisioner`) and Token Secret.
-3. Also copy `tofu/terraform.tfvars.example` to `tofu/terraform.tfvars` and add your Proxmox credentials there as well:
-   ```bash
-   cp tofu/terraform.tfvars.example tofu/terraform.tfvars
-   ```
-   *Note: OpenTofu can also read the `PROXMOX_API_TOKEN_ID` environment variables directly if exported.*
-
-### 3. Provision Infrastructure (OpenTofu)
+### 2. Provision Infrastructure (OpenTofu)
 
 To create resources on Proxmox:
 ```bash
@@ -53,7 +36,7 @@ tofu plan
 tofu apply
 ```
 
-### 4. Configure Infrastructure (Colmena/NixOS)
+### 3. Configure Infrastructure (Colmena/NixOS)
 
 Once your infrastructure is provisioned, use Colmena to apply NixOS configurations to the containers:
 
@@ -62,7 +45,7 @@ Once your infrastructure is provisioned, use Colmena to apply NixOS configuratio
 colmena apply
 ```
 
-### 5. Custom NixOS Live ISO (For VMs)
+### 4. Custom NixOS Live ISO (For VMs)
 
 To build a fresh, customized standard NixOS Live ISO for future Proxmox VM deployments, we use `nixos-generators` powered by the configuration in `nix/iso.nix`:
 
