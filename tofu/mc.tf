@@ -60,62 +60,43 @@ resource "proxmox_virtual_environment_container" "minecraft_nixos_ct" {
   started = true
 }
 
-# Backup every 15m; keep last 4 (~60m of history).
-# Path excludes applied separately (see terraform_data below) — bpg/proxmox
-# cannot read Proxmox's exclude-path JSON array (CustomCommaSeparatedList bug).
-resource "proxmox_backup_job" "minecraft" {
-  id          = "minecraft"
-  schedule    = "*-*-* *:00/15:00"
-  storage     = "local"
-  node        = "pve"
-  vmid        = [tostring(proxmox_virtual_environment_container.minecraft_nixos_ct.vm_id)]
-  mode        = "snapshot"
-  compress    = "zstd"
-  enabled     = true
-  stdexcludes = true
-
-  prune_backups = {
-    keep-last = "4"
-  }
-}
-
-# Longer retention: 1st + 15th of each month (~every 2 weeks), keep last 3.
-resource "proxmox_backup_job" "minecraft_biweekly" {
-  id          = "minecraft-biweekly"
-  schedule    = "*-*-1,15 04:00:00"
-  storage     = "local"
-  node        = "pve"
-  vmid        = [tostring(proxmox_virtual_environment_container.minecraft_nixos_ct.vm_id)]
-  mode        = "snapshot"
-  compress    = "zstd"
-  enabled     = true
-  stdexcludes = true
-
-  prune_backups = {
-    keep-last = "3"
-  }
-}
-
+# Backup jobs via pvesh: proxmox_backup_job still cannot read jobs once exclude-path
+# is set (tested bpg/proxmox 0.118.0 — CustomCommaSeparatedList vs JSON array).
+# One-time if plan still refreshes old proxmox_backup_job resources:
+#   tofu state rm 'proxmox_backup_job.minecraft' 'proxmox_backup_job.minecraft_biweekly'
 locals {
+  minecraft_backup_bwlimit_kib = 8192 # ~8 MiB/s
+  minecraft_backup_ionice      = 7    # vzdump I/O priority; 7 = lowest (PVE 0–7)
+
   minecraft_backup_exclude_paths = [
     "/var/lib/minecraft/.+/mods",
     "/var/lib/minecraft/.+/libraries",
     "/var/lib/minecraft/.+/versions",
     "/var/lib/docker",
   ]
+
+  minecraft_backup_jobs = {
+    # Every 30m; keep last 2 (~60m of history).
+    minecraft = {
+      schedule      = "*-*-* *:00/30:00"
+      prune_backups = "keep-last=2"
+    }
+    # 1st + 15th of each month (~every 2 weeks), keep last 3.
+    minecraft-biweekly = {
+      schedule      = "*-*-1,15 04:00:00"
+      prune_backups = "keep-last=3"
+    }
+  }
 }
 
-# Sets exclude-path via pvesh (provider cannot manage that field).
-resource "terraform_data" "minecraft_backup_excludes" {
-  input = {
-    jobs  = join(",", [proxmox_backup_job.minecraft.id, proxmox_backup_job.minecraft_biweekly.id])
-    paths = join("\n", local.minecraft_backup_exclude_paths)
-  }
-
+resource "terraform_data" "minecraft_backup_jobs" {
   triggers_replace = [
     sha256(jsonencode({
-      jobs  = [proxmox_backup_job.minecraft.id, proxmox_backup_job.minecraft_biweekly.id]
-      paths = local.minecraft_backup_exclude_paths
+      vmid    = proxmox_virtual_environment_container.minecraft_nixos_ct.vm_id
+      bwlimit = local.minecraft_backup_bwlimit_kib
+      ionice  = local.minecraft_backup_ionice
+      jobs    = local.minecraft_backup_jobs
+      paths   = local.minecraft_backup_exclude_paths
     }))
   ]
 
@@ -128,18 +109,20 @@ resource "terraform_data" "minecraft_backup_excludes" {
 
   provisioner "remote-exec" {
     inline = [
-      for job in [proxmox_backup_job.minecraft.id, proxmox_backup_job.minecraft_biweekly.id] :
+      for job_id, job in local.minecraft_backup_jobs :
       format(
-        "pvesh set /cluster/backup/%s -delete exclude-path %s",
-        job,
+        "pvesh set /cluster/backup/%s --schedule '%s' --storage local --node pve --vmid %d --mode snapshot --compress zstd --enabled 1 --bwlimit %d --ionice %d --prune-backups '%s' --stdexcludes 1 -delete exclude-path %s",
+        job_id,
+        job.schedule,
+        proxmox_virtual_environment_container.minecraft_nixos_ct.vm_id,
+        local.minecraft_backup_bwlimit_kib,
+        local.minecraft_backup_ionice,
+        job.prune_backups,
         join(" ", [for p in local.minecraft_backup_exclude_paths : format("-exclude-path '%s'", p)])
       )
     ]
   }
 
-  depends_on = [
-    proxmox_backup_job.minecraft,
-    proxmox_backup_job.minecraft_biweekly,
-  ]
+  depends_on = [proxmox_virtual_environment_container.minecraft_nixos_ct]
 }
 

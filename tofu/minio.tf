@@ -62,3 +62,22 @@ resource "proxmox_virtual_environment_container" "minio_ct" {
 
   started = true
 }
+
+# Daily CT snapshot (tfstate + MinIO data under /var/lib/minio).
+resource "proxmox_backup_job" "minio_daily" {
+  id          = "minio-daily"
+  schedule    = "*-*-* 03:00:00"
+  storage     = "local"
+  node        = "pve"
+  vmid        = [tostring(proxmox_virtual_environment_container.minio_ct.vm_id)]
+  mode        = "snapshot"
+  compress    = "zstd"
+  enabled     = true
+  stdexcludes = true
+  bwlimit     = 8192 # KiB/s (~8 MiB/s)
+  ionice      = 7    # lowest vzdump I/O priority (PVE 0–7)
+
+  prune_backups = {
+    keep-last = "7"
+  }
+}

@@ -36,6 +36,7 @@
         OPS = "techtheawesome";
         VIEW_DISTANCE = "24";
         SPAWN_PROTECTION = "0";
+        OVERRIDE_SERVER_PROPERTIES = "true";
         ALLOW_FLIGHT = "true";
         ENABLE_COMMAND_BLOCK = "true";
         DIFFICULTY = "hard";
@@ -57,6 +58,7 @@
         OPS = "techtheawesome";
         VIEW_DISTANCE = "24";
         SPAWN_PROTECTION = "0";
+        OVERRIDE_SERVER_PROPERTIES = "true";
         ALLOW_FLIGHT = "true";
         ENABLE_COMMAND_BLOCK = "true";
         DIFFICULTY = "hard";
@@ -79,6 +81,7 @@
         OPS = "techtheawesome";
         VIEW_DISTANCE = "24";
         SPAWN_PROTECTION = "0";
+        OVERRIDE_SERVER_PROPERTIES = "true";
         ALLOW_FLIGHT = "true";
         ENABLE_COMMAND_BLOCK = "true";
         DUMP_SERVER_PROPERTIES = "TRUE";
